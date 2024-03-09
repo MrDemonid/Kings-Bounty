@@ -1,0 +1,102 @@
+мар. 09, 2024 10:10:53 PM com.mygdx.game.GameLogger info
+INFO: GameScreen()
+мар. 09, 2024 10:10:53 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose()....
+мар. 09, 2024 10:10:53 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose(): done.
+мар. 09, 2024 10:10:53 PM com.mygdx.game.GameLogger info
+INFO: GameScreen.show()
+мар. 09, 2024 10:10:53 PM com.mygdx.game.GameLogger info
+INFO: MapRender()
+мар. 09, 2024 10:10:53 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load textures...
+мар. 09, 2024 10:10:53 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load done.
+мар. 09, 2024 10:10:56 PM com.mygdx.game.GameLogger info
+INFO: GameScreen()
+мар. 09, 2024 10:10:56 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose()....
+мар. 09, 2024 10:10:56 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose(): done.
+мар. 09, 2024 10:10:56 PM com.mygdx.game.GameLogger info
+INFO: GameScreen.show()
+мар. 09, 2024 10:10:56 PM com.mygdx.game.GameLogger info
+INFO: MapRender()
+мар. 09, 2024 10:10:56 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load textures...
+мар. 09, 2024 10:10:56 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load done.
+мар. 09, 2024 10:10:58 PM com.mygdx.game.GameLogger info
+INFO: GameScreen()
+мар. 09, 2024 10:10:58 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose()....
+мар. 09, 2024 10:10:58 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose(): done.
+мар. 09, 2024 10:10:58 PM com.mygdx.game.GameLogger info
+INFO: GameScreen.show()
+мар. 09, 2024 10:10:58 PM com.mygdx.game.GameLogger info
+INFO: MapRender()
+мар. 09, 2024 10:10:58 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load textures...
+мар. 09, 2024 10:10:58 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load done.
+мар. 09, 2024 10:11:00 PM com.mygdx.game.GameLogger info
+INFO: GameScreen()
+мар. 09, 2024 10:11:00 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose()....
+мар. 09, 2024 10:11:00 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose(): done.
+мар. 09, 2024 10:11:00 PM com.mygdx.game.GameLogger info
+INFO: GameScreen.show()
+мар. 09, 2024 10:11:00 PM com.mygdx.game.GameLogger info
+INFO: MapRender()
+мар. 09, 2024 10:11:00 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load textures...
+мар. 09, 2024 10:11:00 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load done.
+мар. 09, 2024 10:11:01 PM com.mygdx.game.GameLogger info
+INFO: GameScreen()
+мар. 09, 2024 10:11:01 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose()....
+мар. 09, 2024 10:11:01 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose(): done.
+мар. 09, 2024 10:11:01 PM com.mygdx.game.GameLogger info
+INFO: GameScreen.show()
+мар. 09, 2024 10:11:01 PM com.mygdx.game.GameLogger info
+INFO: MapRender()
+мар. 09, 2024 10:11:01 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load textures...
+мар. 09, 2024 10:11:01 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load done.
+мар. 09, 2024 10:11:02 PM com.mygdx.game.GameLogger info
+INFO: GameScreen()
+мар. 09, 2024 10:11:02 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose()....
+мар. 09, 2024 10:11:02 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose(): done.
+мар. 09, 2024 10:11:02 PM com.mygdx.game.GameLogger info
+INFO: GameScreen.show()
+мар. 09, 2024 10:11:02 PM com.mygdx.game.GameLogger info
+INFO: MapRender()
+мар. 09, 2024 10:11:02 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load textures...
+мар. 09, 2024 10:11:02 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load done.
+мар. 09, 2024 10:11:03 PM com.mygdx.game.GameLogger info
+INFO: GameScreen()
+мар. 09, 2024 10:11:03 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose()....
+мар. 09, 2024 10:11:03 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose(): done.
+мар. 09, 2024 10:11:03 PM com.mygdx.game.GameLogger info
+INFO: GameScreen.show()
+мар. 09, 2024 10:11:03 PM com.mygdx.game.GameLogger info
+INFO: MapRender()
+мар. 09, 2024 10:11:03 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load textures...
+мар. 09, 2024 10:11:03 PM com.mygdx.game.GameLogger info
+INFO: MapRender(): load done.
+мар. 09, 2024 10:11:05 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose()....
+мар. 09, 2024 10:11:05 PM com.mygdx.game.GameLogger info
+INFO: MainMenuScreen.dispose(): done.
