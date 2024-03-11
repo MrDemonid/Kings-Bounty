@@ -4,7 +4,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -62,6 +61,7 @@ public class MapRender {
     public void render()
     {
         batch.setProjectionMatrix(camera.combined);
+        camera.update();
         batch.begin();
 
         renderMap();
@@ -78,7 +78,10 @@ public class MapRender {
             for (int x = 0; x < map.getWidth(); x++)
             {
                 int tile = map.getTile(x, yy);
-                batch.draw(map_tiles[tile], x*MAP_TILE_WIDTH, y*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                if (tile >= 0 && tile < map_tiles.length)
+                    batch.draw(map_tiles[tile], x*MAP_TILE_WIDTH, y*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                else
+                    batch.draw(map_tiles[0], x*MAP_TILE_WIDTH, y*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
             }
         }
     }
@@ -90,6 +93,7 @@ public class MapRender {
      */
     public void resize(int width, int height)
     {
+        GameLogger.info(String.format("render.resize(%d, %d)", width, height));
         camera.viewportWidth = map.getWidth()*MAP_TILE_WIDTH;
         camera.viewportHeight = map.getHeight()*MAP_TILE_HEIGHT;
         camera.update();

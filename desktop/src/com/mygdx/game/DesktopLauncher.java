@@ -7,9 +7,9 @@ import com.mygdx.game.BountyGame;
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-//		GameLogger.init(DesktopLauncher.class.getName());
+		GameLogger.init(DesktopLauncher.class.getName());
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowedMode(800, 600);
+		config.setWindowedMode(512, 512);
 		config.useVsync(true);
 		config.setForegroundFPS(20);
 		config.setTitle("Kings-Bounty");
