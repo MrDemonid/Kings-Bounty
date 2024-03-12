@@ -12,7 +12,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) throws UnsupportedEncodingException {
 //		GameLogger.init(DesktopLauncher.class.getName());
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowedMode(512, 512);
+		config.setWindowedMode(640, 640);
 		config.useVsync(true);
 		config.setForegroundFPS(20);
 		config.setTitle("Kings-Bounty");

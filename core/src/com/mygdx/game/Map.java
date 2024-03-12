@@ -9,11 +9,16 @@ public class Map {
     private final int mapHeight;
     private final int[][] tiles;
 
+    public Teams teams;
+
     public Map(int mapWidth, int mapHeight)
     {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.tiles = new int[mapHeight][mapWidth];
+
+        this.teams = new Teams();
+        teams.createTeams(10);
     }
 
     /**

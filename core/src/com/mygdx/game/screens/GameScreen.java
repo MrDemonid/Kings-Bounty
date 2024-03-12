@@ -10,8 +10,8 @@ import com.mygdx.game.MapRender;
 
 public class GameScreen extends BaseScreen{
 
-    static final int MAP_WIDTH = 16;
-    static final int MAP_HEIGHT = 16;
+    static final int MAP_WIDTH = 10;
+    static final int MAP_HEIGHT = 10;
 
     Map map;
     MapRender render;

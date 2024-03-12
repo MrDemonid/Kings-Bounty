@@ -7,12 +7,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.game.behavior.TeamType;
+import com.mygdx.game.person.PersonBase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class MapRender {
 
-    private static final int MAP_TILE_WIDTH = 32;
-    private static final int MAP_TILE_HEIGHT = 32;
+    private enum Dir {
+        LEFT, RIGHT;
+    }
+    
+    private static final int MAP_TILE_WIDTH = 64;
+    private static final int MAP_TILE_HEIGHT = 64;
     
     private final OrthographicCamera camera;
     private final BitmapFont font;
@@ -20,14 +30,8 @@ public class MapRender {
 
     private final TextureRegion[] map_tiles;
 
-    private final TextureRegion txPeasant;
-    private final TextureRegion txCrossbowman;
-    private final TextureRegion txSniper;
-    private final TextureRegion txRobber;
-    private final TextureRegion txSpearman;
-    private final TextureRegion txWizard;
-    private final TextureRegion txMonk;
-    
+    private final HashMap<String, TextureRegion> txPersons;
+
 
     Map map;
 
@@ -47,14 +51,15 @@ public class MapRender {
         TextureRegion[][] tiles = TextureRegion.split(texture, 64, 64);
         map_tiles = new TextureRegion[5];
         System.arraycopy(tiles[0], 0, map_tiles, 0, 5);
-        txPeasant       = new TextureRegion(tiles[1][0]);
-        txCrossbowman   = new TextureRegion(tiles[1][1]);
-        txSniper        = new TextureRegion(tiles[1][2]);
-        txRobber        = new TextureRegion(tiles[1][3]);
-        txSpearman      = new TextureRegion(tiles[1][4]);
-        txMonk          = new TextureRegion(tiles[1][5]);
-        txWizard        = new TextureRegion(tiles[1][6]);
-
+        // для персонажей
+        txPersons = new HashMap<>();
+        txPersons.put("Peasant", new TextureRegion(tiles[1][0]));
+        txPersons.put("Crossbowman", new TextureRegion(tiles[1][1]));
+        txPersons.put("Sniper",  new TextureRegion(tiles[1][2]));
+        txPersons.put("Robber", new TextureRegion(tiles[1][3]));
+        txPersons.put("Spearman", new TextureRegion(tiles[1][4]));
+        txPersons.put("Monk", new TextureRegion(tiles[1][5]));
+        txPersons.put("Wizard", new TextureRegion(tiles[1][6]));
     }
 
 
@@ -65,6 +70,7 @@ public class MapRender {
         batch.begin();
 
         renderMap();
+        renderTeams();
         
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 8, 20);
         batch.end();
@@ -83,6 +89,33 @@ public class MapRender {
                 else
                     batch.draw(map_tiles[0], x*MAP_TILE_WIDTH, y*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
             }
+        }
+    }
+
+    private void renderTeams()
+    {
+        renderOneTeam(map.teams.getTeam(TeamType.RED), Dir.LEFT);
+        renderOneTeam(map.teams.getTeam(TeamType.BLUE), Dir.RIGHT);
+    }
+
+    private void renderOneTeam(ArrayList<PersonBase> team, Dir dir)
+    {
+        for (PersonBase p : team)
+        {
+            TextureRegion texture = txPersons.get(p.getClass().getSimpleName());
+            if (texture != null)
+            {
+                if (dir == Dir.LEFT)
+                    batch.draw(texture, p.getPositionX()*MAP_TILE_WIDTH, p.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                else {
+                    texture.flip(true,false);
+                    batch.draw(texture, p.getPositionX()*MAP_TILE_WIDTH, p.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                    texture.flip(true,false);
+                }
+            } else {
+                Console.println(p.getClass().getSimpleName());
+            }
+
         }
     }
 
@@ -108,13 +141,14 @@ public class MapRender {
         batch.dispose();
         for (TextureRegion mapTile : map_tiles)
             mapTile.getTexture().dispose();
-        txPeasant.getTexture().dispose();
-        txCrossbowman.getTexture().dispose();
-        txSniper.getTexture().dispose();
-        txRobber.getTexture().dispose();
-        txSpearman.getTexture().dispose();
-        txMonk.getTexture().dispose();
-        txWizard.getTexture().dispose();
+
+        txPersons.get("Peasant").getTexture().dispose();
+        txPersons.get("Crossbowman").getTexture().dispose();
+        txPersons.get("Sniper").getTexture().dispose();
+        txPersons.get("Robber").getTexture().dispose();
+        txPersons.get("Spearman").getTexture().dispose();
+        txPersons.get("Monk").getTexture().dispose();
+        txPersons.get("Wizard").getTexture().dispose();
     }
 
 }

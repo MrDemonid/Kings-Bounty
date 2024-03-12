@@ -74,6 +74,16 @@ public abstract class PersonBase {
         position.setY(y);
     }
 
+    public int getPositionX()
+    {
+        return position.getX();
+    }
+
+    public int getPositionY()
+    {
+        return position.getY();
+    }
+    
     /**
      * Лечение персонажа
      * @param health Количество добавляемого здоровья
