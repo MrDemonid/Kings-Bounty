@@ -1,6 +1,8 @@
-package com.mygdx.game.persons;
+package com.mygdx.game.person;
 
-public class Peasant extends PersonBase {
+import com.mygdx.game.behavior.CoordXY;
+
+public class Peasant extends PersonBase{
 
     private static final int HEALTH = 500;
     private static final int POWER = 30;
@@ -13,11 +15,13 @@ public class Peasant extends PersonBase {
 
     /**
      * Создание экземпляра Крестьянина
-     * @param name имя
-     * @param priority приоритет хода
+     * 
+     * @param name Имя
+     * @param pos  Положение в прогстранстве
+     *
      */
-    public Peasant(String name, int priority) {
-        super(name, priority, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE);
+    public Peasant(String name, CoordXY pos) {
+        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, pos);
         bag = 0;
     }
 
@@ -31,7 +35,8 @@ public class Peasant extends PersonBase {
 
     @Override
     public String toString() {
-        return String.format("[Крестьянин] %s", name);
+        return String.format("[Крестьянин] %s", name  + " " + position.toString());
     }
 
 }
+

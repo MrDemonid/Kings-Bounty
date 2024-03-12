@@ -1,4 +1,6 @@
-package com.mygdx.game.persons;
+package com.mygdx.game.person;
+
+import com.mygdx.game.behavior.CoordXY;
 
 /**
  * Класс Арбалетчик
@@ -16,21 +18,15 @@ public class Crossbowman extends ShooterBase {
     /**
      * Создание экзеспляра Арбалетчика
      * @param name Имя
-     * @param priority Приоритет хода
+     * @param pos  Положение в прогстранстве
      */
-    public Crossbowman(String name, int priority) {
-        super(name, priority, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, ARROWS, EFFECTIVE_DISTANCE);
-    }
-
-    @Override
-    public void action()
-    {
-
+    public Crossbowman(String name, CoordXY pos) {
+        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, ARROWS, EFFECTIVE_DISTANCE, pos);
     }
 
     @Override
     public String toString() {
-        return String.format("[Арбалетчик] %s", name);
+        return String.format("[Арбалетчик] %s", name + " " + position.toString());
     }
 
 }

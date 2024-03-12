@@ -1,4 +1,6 @@
-package com.mygdx.game.persons;
+package com.mygdx.game.person;
+
+import com.mygdx.game.behavior.CoordXY;
 
 public class Monk extends MagicianBase {
 
@@ -13,23 +15,16 @@ public class Monk extends MagicianBase {
      * Создание экземпляра Монаха
      *
      * @param name имя
-     * @param priority приоритет хода
      */
-    public Monk(String name, int priority)
+    public Monk(String name, CoordXY pos)
     {
-        super(name, priority, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, MANA);
-    }
-
-    @Override
-    public void action()
-    {
-
+        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, MANA, pos);
     }
 
     @Override
     public String toString()
     {
-        return String.format("[Монах] %s", name);
+        return String.format("[Монах] %s", name  + " " + position.toString());
     }
 
 }

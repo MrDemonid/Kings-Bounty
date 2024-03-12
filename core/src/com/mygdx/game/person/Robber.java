@@ -1,4 +1,6 @@
-package com.mygdx.game.persons;
+package com.mygdx.game.person;
+
+import com.mygdx.game.behavior.CoordXY;
 
 /**
  * Класс Разбойник
@@ -14,23 +16,18 @@ public class Robber extends InfantryBase {
     /**
      * Создание экземпляра Разбойника
      *
-     * @param name имя
-     * @param priority приоритет хода
+     * @param name Имя
+     * @param pos  Положение в прогстранстве
      */
-    public Robber(String name, int priority)
+    public Robber(String name, CoordXY pos)
     {
-        super(name, priority, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE);
+        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, pos);
     }
 
-    @Override
-    public void action()
-    {
-
-    }
 
     @Override
     public String toString() {
-        return String.format("[Разбойник] %s", name);
+        return String.format("[Разбойник] %s", name  + " " + position.toString());
     }
 
 }

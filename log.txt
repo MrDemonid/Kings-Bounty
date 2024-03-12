@@ -1,2 +1,2 @@
-мар. 11, 2024 9:37:57 AM com.mygdx.game.GameLogger info
+мар. 12, 2024 11:10:35 AM com.mygdx.game.GameLogger info
 INFO: render.resize(512, 512)

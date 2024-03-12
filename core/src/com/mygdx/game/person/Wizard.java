@@ -1,4 +1,6 @@
-package com.mygdx.game.persons;
+package com.mygdx.game.person;
+
+import com.mygdx.game.behavior.CoordXY;
 
 /**
  * Класс Колдун
@@ -16,24 +18,17 @@ public class Wizard extends MagicianBase {
      * Создание экземпляра Колдуна
      *
      * @param name имя
-     * @param priority приоритет хода
      */
-    public Wizard(String name, int priority)
+    public Wizard(String name, CoordXY pos)
     {
-        super(name, priority, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, MANA);
+        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, MANA, pos);
     }
 
-
-    @Override
-    public void action()
-    {
-
-    }
 
     @Override
     public String toString()
     {
-        return String.format("[Колдун] %s", name);
+        return String.format("[Колдун] %s", name  + " " + position.toString());
     }
 
 }

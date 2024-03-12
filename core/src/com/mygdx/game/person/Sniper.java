@@ -1,4 +1,6 @@
-package com.mygdx.game.persons;
+package com.mygdx.game.person;
+
+import com.mygdx.game.behavior.CoordXY;
 
 /**
  * Класс Снайпер (лучник)
@@ -16,28 +18,20 @@ public class Sniper extends ShooterBase {
 
     /**
      * Создание экзеспляра Снайпера
+     *
      * @param name Имя
-     * @param priority Приоритет хода
+     * @param pos  Положение в прогстранстве
      */
-    public Sniper(String name, int priority)
+    public Sniper(String name, CoordXY pos)
     {
-        super(name, priority, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, ARROWS, EFFECTIVE_DISTANCE);
-    }
-
-
-    /**
-     * Выбираем цель и атакуем, если есть стрелы
-     */
-    @Override
-    public void action()
-    {
-
+        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, ARROWS, EFFECTIVE_DISTANCE, pos);
     }
 
     @Override
     public String toString()
     {
-        return String.format("[Снайпер] %s", name);
+        return String.format("[Снайпер] %s", name  + " " + position.toString());
     }
 
 }
+

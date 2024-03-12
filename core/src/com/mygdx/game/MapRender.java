@@ -93,7 +93,7 @@ public class MapRender {
      */
     public void resize(int width, int height)
     {
-        GameLogger.info(String.format("render.resize(%d, %d)", width, height));
+//        GameLogger.info(String.format("render.resize(%d, %d)", width, height));
         camera.viewportWidth = map.getWidth()*MAP_TILE_WIDTH;
         camera.viewportHeight = map.getHeight()*MAP_TILE_HEIGHT;
         camera.update();

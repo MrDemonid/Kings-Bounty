@@ -1,4 +1,6 @@
-package com.mygdx.game.persons;
+package com.mygdx.game.person;
+
+import com.mygdx.game.behavior.CoordXY;
 
 /**
  * Класс Копейщик
@@ -14,22 +16,17 @@ public class Spearman extends InfantryBase {
     /**
      * Создание экземпляра Копейщика
      *
-     * @param name имя
-     * @param priority приоритет хода
+     * @param name Имя
+     * @param pos  Положение в прогстранстве
      */
-    public Spearman(String name, int priority)
+    public Spearman(String name, CoordXY pos)
     {
-        super(name, priority, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE);
+        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, pos);
     }
 
     @Override
     public String toString() {
-        return String.format("[Копейщик] %s", name);
-    }
-
-    @Override
-    public void action() {
-
+        return String.format("[Копейщик] %s", name  + " " + position.toString());
     }
 
 }
