@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.mygdx.game.behavior.CoordXY;
 import com.mygdx.game.behavior.HeroesNames;
+import com.mygdx.game.behavior.TeamType;
 import com.mygdx.game.person.*;
 
 import java.util.ArrayList;
@@ -32,8 +33,11 @@ public class Teams {
         all.sort((o1, o2) -> Integer.compare(o2.priority, o1.priority));
     }
 
-    public ArrayList<PersonBase> getTeam(int team)
+    public ArrayList<PersonBase> getTeam(TeamType team)
     {
+        if (team == TeamType.RED)
+            return red;
+        return blue;
     }
 
     private void createOneTeam(ArrayList<PersonBase> team, int num, int start)

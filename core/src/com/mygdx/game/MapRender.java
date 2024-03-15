@@ -12,7 +12,6 @@ import com.mygdx.game.person.PersonBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 
 public class MapRender {

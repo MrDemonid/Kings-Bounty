@@ -83,6 +83,15 @@ public abstract class PersonBase implements ActionInterface {
         return position;
     }
 
+    public int getPositionX()
+    {
+        return this.position.getX();
+    }
+    public int getPositionY()
+    {
+        return this.position.getY();
+    }
+    
     /**
      * Лечение персонажа
      * @param health Количество добавляемого здоровья
