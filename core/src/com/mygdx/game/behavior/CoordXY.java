@@ -1,5 +1,7 @@
 package com.mygdx.game.behavior;
 
+import com.mygdx.game.person.PersonBase;
+
 /**
  * Класс для позиционирования персонажей
  */
@@ -32,12 +34,10 @@ public class CoordXY {
         this.curY = curY;
     }
 
-    public static void setWidth(int width) {
-        CoordXY.width = width;
-    }
-
-    public static void setHeight(int height) {
-        CoordXY.height = height;
+    public void setXY(int x, int y)
+    {
+        curX = x;
+        curY = y;
     }
 
     public int getX() {
@@ -46,6 +46,14 @@ public class CoordXY {
 
     public int getY() {
         return curY;
+    }
+
+    public static void setWidth(int width) {
+        CoordXY.width = width;
+    }
+
+    public static void setHeight(int height) {
+        CoordXY.height = height;
     }
 
     public static int getWidth() {
@@ -84,7 +92,7 @@ public class CoordXY {
 
     /**
      * Вычисляет расстояние расстояние до другой точки
-     *
+     * 
      * @param target До куда считаем
      * @return       Расстояние
      */
@@ -94,6 +102,7 @@ public class CoordXY {
         float y = curY - target.getY();
         return (float) Math.sqrt(x*x + y*y);
     }
+
 
     public String toString()
     {

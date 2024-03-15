@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.mygdx.game.behavior.CoordXY;
 import com.mygdx.game.behavior.HeroesNames;
-import com.mygdx.game.behavior.TeamType;
 import com.mygdx.game.person.*;
 
 import java.util.ArrayList;
@@ -11,33 +10,30 @@ import java.util.Random;
 public class Teams {
     ArrayList<PersonBase> red;
     ArrayList<PersonBase> blue;
+    public ArrayList<PersonBase> all;
 
-    public Teams() {
-        red = new ArrayList<>();
-        blue = new ArrayList<>();
-    }
+    int curPerson;
 
-    public void addToTeam(TeamType team, PersonBase person)
+    public Teams()
     {
-        if (team == TeamType.RED)
-        {
-            red.add(person);
-        } else {
-            blue.add(person);
-        }
+        this.red = new ArrayList<>();
+        this.blue = new ArrayList<>();
+        this.all = new ArrayList<>();
+        curPerson = 0;
     }
 
     public void createTeams(int numPersons)
     {
-        createOneTeam(red,numPersons,0);
-        createOneTeam(blue,numPersons,3);
+        createOneTeam(red, numPersons, 0);
+        createOneTeam(blue, numPersons, 3);
+        // создаём список всех персонажей, отсортированных по приоритету хода
+        all.addAll(red);
+        all.addAll(blue);
+        all.sort((o1, o2) -> Integer.compare(o2.priority, o1.priority));
     }
 
-    public ArrayList<PersonBase> getTeam(TeamType team)
+    public ArrayList<PersonBase> getTeam(int team)
     {
-        if (team == TeamType.BLUE)
-            return blue;
-        return red;
     }
 
     private void createOneTeam(ArrayList<PersonBase> team, int num, int start)

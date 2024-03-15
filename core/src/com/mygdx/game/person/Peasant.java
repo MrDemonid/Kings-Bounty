@@ -2,6 +2,8 @@ package com.mygdx.game.person;
 
 import com.mygdx.game.behavior.CoordXY;
 
+import java.util.ArrayList;
+
 public class Peasant extends PersonBase{
 
     private static final int HEALTH = 500;
@@ -26,10 +28,12 @@ public class Peasant extends PersonBase{
     }
 
     /**
-     * Ход крестьянина (если загружены, то к стрелку, иначе на "базу" загружаться)
+     * Ход персонажа
+     *
+     * @param enemies Список его врагов
      */
     @Override
-    public void action() {
+    public void step(ArrayList<PersonBase> enemies) {
 
     }
 

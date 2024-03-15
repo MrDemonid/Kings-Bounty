@@ -1,5 +1,6 @@
 package com.mygdx.game.person;
 
+import com.mygdx.game.behavior.ActionInterface;
 import com.mygdx.game.behavior.CoordXY;
 
 import java.util.ArrayList;
@@ -8,14 +9,14 @@ import java.util.Random;
 /**
  * База для персонажей.
  */
-public abstract class PersonBase {
+public abstract class PersonBase implements ActionInterface {
     protected static Random rnd;
     static {
         rnd = new Random();
     }
 
     protected String name;
-    protected int priority;                 // приоритет хода
+    public int priority;                 // приоритет хода
     protected int health;                   // здоровье
     protected final int maxHealth;
     protected final int power;              //
@@ -55,7 +56,7 @@ public abstract class PersonBase {
      * @param percent Погрешность
      * @return Значение с внесённой погрешностью
      */
-    private int getRound(int origin, int percent)
+    protected int getRound(int origin, int percent)
     {
         if (percent > origin)
             return origin;
@@ -64,26 +65,24 @@ public abstract class PersonBase {
     }
 
     /**
-     * Задаёт местоположение персонажа (нужно будет добавить проверку на границы карты)
+     * Задаёт местоположение персонажа
      * @param x По оси X
      * @param y По оси Y
      */
     public void setPosition(int x, int y)
     {
-        position.setX(x);
-        position.setY(y);
+        position.setXY(x, y);
     }
 
-    public int getPositionX()
+    /**
+     * Возвращает текущее местоположение персонажа
+     * @return
+     */
+    public CoordXY getPosition()
     {
-        return position.getX();
+        return position;
     }
 
-    public int getPositionY()
-    {
-        return position.getY();
-    }
-    
     /**
      * Лечение персонажа
      * @param health Количество добавляемого здоровья
@@ -102,10 +101,18 @@ public abstract class PersonBase {
     {
         boolean probability = (this.agility/2) >= rnd.nextInt(100);
         if (probability)
+        {
+//            System.out.print(" но " + name + " увернулся!");
             return 0;           // увернулись
+        }
+
         int loss = damage - (this.defence * damage) / 100;
         loss = Math.min(loss, this.health);
         this.health -= loss;
+//        if (this.health <= 0)
+//        {
+//            System.out.println(name + ": вышел из чата!");
+//        }
         return loss;
     }
 
@@ -121,21 +128,18 @@ public abstract class PersonBase {
 
         for (PersonBase p : persons)
         {
-            float dist = position.distanceTo(p.position);
-            if (dist < minDistance)
+            if (p.health > 0)
             {
-                minDistance = dist;
-                target = p;
+                float dist = position.distanceTo(p.position);
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    target = p;
+                }
             }
         }
         return target;
     }
-
-    /**
-     * Действие персонажа (ход)
-     */
-    abstract public void action();
-
 
 //    @Override
 //    public String toString()

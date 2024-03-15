@@ -2,6 +2,7 @@ package com.mygdx.game.person;
 
 import com.mygdx.game.behavior.CoordXY;
 
+import java.util.ArrayList;
 
 /**
  * Базовый класс для стрелков, в данном случае для Снайперов и Арбалетчиков,
@@ -36,12 +37,63 @@ public abstract class ShooterBase extends PersonBase {
     }
 
     /**
-     * Выбираем цель и атакуем, если есть стрелы
+     * Атака противника
+     * 
+     * @param target Противник
+     */
+    protected void shot(PersonBase target)
+    {
+        System.out.print(" Стреляет по " + target);
+        ammo--;
+        float dist = position.distanceTo(target.position);
+        int damage = getRound(power, 10) + (power / 10) * level;
+        if (dist > effectiveDistance)
+            damage *= 0.5f;
+        else if (dist < effectiveDistance)
+            damage *= 1.2f;
+
+        boolean critical = (this.agility/3) >= rnd.nextInt(100);
+        if (critical)
+        {
+            damage *= 2.0f;
+        }
+        int res = target.getDamage(damage);
+        if (res > 0)
+        {
+            if (critical)
+                System.out.print(" и наносит критический удар в " + res + " повреждений!");
+            else
+                System.out.print(" и наносит " + res + " повреждений.");
+        } else {
+            System.out.print(", но " + target.name + " увернулся!");
+        }
+        if (target.health <= 0)
+        {
+            System.out.print("\n" + target + " вышел из чата!");
+        }
+    }
+
+    /**
+     * Ход персонажа
+     *
+     * @param enemies Список его врагов
      */
     @Override
-    public void action()
+    public void step(ArrayList<PersonBase> enemies)
     {
-
+        if (health <= 0 || ammo <= 0)
+        {
+            if (ammo <= 0)
+            {
+                System.out.print(name + ": " + "подайте стрел!");
+            }
+            return;
+        }
+        PersonBase target = this.findNearestPerson(enemies);
+        if (target != null)
+        {
+            shot(target);
+        }
     }
 
 }

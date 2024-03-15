@@ -2,6 +2,8 @@ package com.mygdx.game.person;
 
 import com.mygdx.game.behavior.CoordXY;
 
+import java.util.ArrayList;
+
 /**
  * Базовый класс для Волшебников, в данном случае для Кодуна и Монаха,
  * но можно добавить Некроманты или Шамана.
@@ -31,10 +33,8 @@ public abstract class MagicianBase extends PersonBase {
         this.maxMana = mana;
     }
 
-
     @Override
-    public void action()
-    {
+    public void step(ArrayList<PersonBase> enemies) {
 
     }
 

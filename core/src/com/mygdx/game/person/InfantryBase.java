@@ -2,6 +2,8 @@ package com.mygdx.game.person;
 
 import com.mygdx.game.behavior.CoordXY;
 
+import java.util.ArrayList;
+
 /**
  * Абстрактный класс Пехота, в данном случае база для Разбойников и Копейщиков,
  * но можно добавить Мечников, Варваров и тд.
@@ -28,9 +30,9 @@ public abstract class InfantryBase extends PersonBase {
         level = 1;
     }
 
+
     @Override
-    public void action()
-    {
+    public void step(ArrayList<PersonBase> enemies) {
 
     }
 

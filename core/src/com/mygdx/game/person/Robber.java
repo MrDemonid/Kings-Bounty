@@ -3,14 +3,14 @@ package com.mygdx.game.person;
 import com.mygdx.game.behavior.CoordXY;
 
 /**
- * Класс Разбойник
+ * Класс Разбойник, более ловкий чем Копейщик, но имеет меньшую силу и защиту
  */
 public class Robber extends InfantryBase {
 
     private static final int HEALTH = 1000;
-    private static final int POWER = 80;
-    private static final int AGILITY = 10;
-    private static final int DEFENCE = 12;
+    private static final int POWER = 70;
+    private static final int AGILITY = 60;
+    private static final int DEFENCE = 10;
     private static final int DISTANCE = 1;
 
     /**
@@ -21,7 +21,7 @@ public class Robber extends InfantryBase {
      */
     public Robber(String name, CoordXY pos)
     {
-        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, pos);
+        super(name, 2, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, pos);
     }
 
 
@@ -29,5 +29,6 @@ public class Robber extends InfantryBase {
     public String toString() {
         return String.format("[Разбойник] %s", name  + " " + position.toString());
     }
+
 
 }

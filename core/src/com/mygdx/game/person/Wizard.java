@@ -21,7 +21,7 @@ public class Wizard extends MagicianBase {
      */
     public Wizard(String name, CoordXY pos)
     {
-        super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, MANA, pos);
+        super(name, 1, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, MANA, pos);
     }
 
 
