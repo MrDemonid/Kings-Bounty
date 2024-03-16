@@ -4,6 +4,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,8 +23,13 @@ public class MapRender {
     private final OrthographicCamera camera;
     private final BitmapFont font;
     private final SpriteBatch batch;
+    private float gameTime;
 
     private final TextureRegion[] map_tiles;
+    private final HashMap<String, Animation> activePerson;
+//    private final Animation<TextureRegion> txPeasant;
+
+
 
     private final HashMap<String, TextureRegion> txPersons;
     private final TextureRegion fireFar;
@@ -36,6 +42,7 @@ public class MapRender {
 
         this.map = map;
         map.makeMap();
+        gameTime = 0.0f;
         batch = new SpriteBatch();
         font = new BitmapFont();
         // настраиваем камеру и размер карты
@@ -50,61 +57,44 @@ public class MapRender {
         System.arraycopy(tiles[0], 0, map_tiles, 0, 5);
         // для персонажей
         txPersons = new HashMap<>();
-        txPersons.put("Peasant", new TextureRegion(tiles[1][0]));
-        txPersons.put("Crossbowman", new TextureRegion(tiles[1][1]));
-        txPersons.put("Sniper",  new TextureRegion(tiles[1][2]));
-        txPersons.put("Robber", new TextureRegion(tiles[1][3]));
-        txPersons.put("Spearman", new TextureRegion(tiles[1][4]));
-        txPersons.put("Monk", new TextureRegion(tiles[1][5]));
-        txPersons.put("Wizard", new TextureRegion(tiles[1][6]));
-
-        txPersons.put("SelPeasant", new TextureRegion(tiles[2][0]));
-        txPersons.put("SelCrossbowman", new TextureRegion(tiles[2][1]));
-        txPersons.put("SelSniper",  new TextureRegion(tiles[2][2]));
-        txPersons.put("SelRobber", new TextureRegion(tiles[2][3]));
-        txPersons.put("SelSpearman", new TextureRegion(tiles[2][4]));
-        txPersons.put("SelMonk", new TextureRegion(tiles[2][5]));
-        txPersons.put("SelWizard", new TextureRegion(tiles[2][6]));
+        txPersons.put("Peasant",        new TextureRegion(tiles[1][0]));
+        txPersons.put("Crossbowman",    new TextureRegion(tiles[1][1]));
+        txPersons.put("Sniper",         new TextureRegion(tiles[1][2]));
+        txPersons.put("Robber",         new TextureRegion(tiles[1][3]));
+        txPersons.put("Spearman",       new TextureRegion(tiles[1][4]));
+        txPersons.put("Monk",           new TextureRegion(tiles[1][5]));
+        txPersons.put("Wizard",         new TextureRegion(tiles[1][6]));
+        // для активного персонажа
+        activePerson = new HashMap<>();
+        activePerson.put("Peasant",     new Animation<>(0.2f, tiles[1][0], tiles[2][0]));
+        activePerson.put("Crossbowman", new Animation<>(0.2f, tiles[1][1], tiles[2][1]));
+        activePerson.put("Sniper",      new Animation<>(0.2f, tiles[1][2], tiles[2][2]));
+        activePerson.put("Robber",      new Animation<>(0.2f, tiles[1][3], tiles[2][3]));
+        activePerson.put("Spearman",    new Animation<>(0.2f, tiles[1][4], tiles[2][4]));
+        activePerson.put("Monk",        new Animation<>(0.2f, tiles[1][5], tiles[2][5]));
+        activePerson.put("Wizard",      new Animation<>(0.2f, tiles[1][6], tiles[2][6]));
 
         fireFar = new TextureRegion(tiles[0][5]);
         fireNear = new TextureRegion(tiles[0][6]);
     }
 
 
-    public void render()
+    public void render(float delta)
     {
+        gameTime += delta;
         batch.setProjectionMatrix(camera.combined);
         camera.update();
         batch.begin();
 
         renderMap();
-        renderTeams();
-        drawCurrentPerson();
+        renderTeams(gameTime);
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 8, 20);
         batch.end();
 
 
     }
 
-    public void drawCurrentPerson()
-    {
-        TeamPerson cur = map.teams.getCurrentPerson();
-        TextureRegion texture = txPersons.get("Sel" + cur.person.getClass().getSimpleName());
-        if (texture != null)
-        {
-            if (cur.team == TeamType.RED)
-            {
-                batch.draw(texture, cur.person.getPositionX()*MAP_TILE_WIDTH, cur.person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
-            } else {
-                texture.flip(true,false);
-                batch.draw(texture, cur.person.getPositionX()*MAP_TILE_WIDTH, cur.person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
-                texture.flip(true,false);
-            }
 
-        }
-    }
-
-    
     private void renderMap()
     {
 
@@ -121,26 +111,39 @@ public class MapRender {
         }
     }
 
-    private void renderTeams()
+    /**
+     * Отрисовка команд
+     *
+     * @param time Общее время игры
+     */
+    private void renderTeams(float time)
     {
+
         ArrayList<TeamPerson> team = map.teams.allPersons;
         for (TeamPerson p : team)
         {
             PersonBase person = p.person;
-            TextureRegion texture = txPersons.get(person.getClass().getSimpleName());
-            if (texture != null)
+            String className = person.getClass().getSimpleName();
+            TextureRegion frame;
+            if (p.active)
             {
-                if (p.team == TeamType.RED)
-                    batch.draw(texture, person.getPositionX()*MAP_TILE_WIDTH, person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
-                else {
-                    texture.flip(true,false);
-                    batch.draw(texture, person.getPositionX()*MAP_TILE_WIDTH, person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
-                    texture.flip(true,false);
-                }
+                frame = (TextureRegion) activePerson.get(className).getKeyFrame(time, true);
             } else {
-                System.out.println(p.getClass().getSimpleName());
+                frame = txPersons.get(className);
             }
 
+            if (frame != null)
+            {
+                if (p.team == TeamType.RED)
+                    batch.draw(frame, person.getPositionX()*MAP_TILE_WIDTH, person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                else {
+                    frame.flip(true,false);
+                    batch.draw(frame, person.getPositionX()*MAP_TILE_WIDTH, person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                    frame.flip(true,false);
+                }
+            } else {
+                System.out.println("renderTeams(): unknown class: " + p.getClass().getSimpleName());
+            }
         }
     }
 

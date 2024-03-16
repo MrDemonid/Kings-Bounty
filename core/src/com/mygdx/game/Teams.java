@@ -30,12 +30,14 @@ public class Teams {
 
     public void update()
     {
+        allPersons.get(curPerson).active = false;
         curPerson++;
         if (curPerson >= allPersons.size())
         {
             curPerson = 0;
         }
         TeamPerson p = allPersons.get(curPerson);
+        p.active = true;
         System.out.print(p.person + " ходит. ");
         if (p.team == TeamType.RED)
         {
@@ -44,11 +46,6 @@ public class Teams {
             p.person.step(red);
         }
         System.out.println();
-    }
-
-    public TeamPerson getCurrentPerson()
-    {
-        return allPersons.get(curPerson);
     }
 
     public void createTeams(int numPersons)
@@ -70,6 +67,7 @@ public class Teams {
                 allPersons.add(new TeamPerson(TeamType.BLUE, p));
             }
         }
+        curPerson = allPersons.size()-1;
     }
 
     private void createOneTeam(ArrayList<PersonBase> team, int num, int start)

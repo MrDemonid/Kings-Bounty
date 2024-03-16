@@ -38,7 +38,7 @@ public class GameScreen extends BaseScreen{
         {
             map.update(delta);
         }
-        render.render();
+        render.render(delta);
         nextStep--;
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER))
         {
