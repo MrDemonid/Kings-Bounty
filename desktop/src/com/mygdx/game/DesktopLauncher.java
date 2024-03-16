@@ -16,6 +16,7 @@ public class DesktopLauncher {
 		config.useVsync(true);
 		config.setForegroundFPS(20);
 		config.setTitle("Kings-Bounty");
+		System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
 		new Lwjgl3Application(new BountyGame(), config);
 	}
 }

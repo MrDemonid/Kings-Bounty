@@ -73,7 +73,7 @@ public class Map {
      */
     public void update(float deltaTime)
     {
-
+        teams.update();
     }
 
 }

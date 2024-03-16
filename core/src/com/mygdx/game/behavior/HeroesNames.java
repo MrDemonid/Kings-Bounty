@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class HeroesNames {
     private static Random rnd;
-    private static String[] names = {"Иван", "Антон", "Артём", "Ольга", "Светлана", "Лариса",
+    private static String[] names = {"Николай", "Антон", "Артём", "Ольга", "Светлана", "Лариса",
                                      "Андрей", "Локи", "Тор", "Зевс", "Геракл", "Ахиллес", "Гектор"
                                     };
     static {

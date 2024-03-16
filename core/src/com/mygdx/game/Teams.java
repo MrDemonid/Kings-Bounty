@@ -8,19 +8,47 @@ import com.mygdx.game.person.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+
+
 public class Teams {
     ArrayList<PersonBase> red;
     ArrayList<PersonBase> blue;
-    public ArrayList<PersonBase> all;
+
+    public ArrayList<TeamPerson> allPersons;
 
     int curPerson;
+
 
     public Teams()
     {
         this.red = new ArrayList<>();
         this.blue = new ArrayList<>();
-        this.all = new ArrayList<>();
-        curPerson = 0;
+        this.allPersons = new ArrayList<>();
+        curPerson = -1;
+    }
+
+    public void update()
+    {
+        curPerson++;
+        if (curPerson >= allPersons.size())
+        {
+            curPerson = 0;
+        }
+        TeamPerson p = allPersons.get(curPerson);
+        System.out.print(p.person + " ходит. ");
+        if (p.team == TeamType.RED)
+        {
+            p.person.step(blue);
+        } else {
+            p.person.step(red);
+        }
+        System.out.println();
+    }
+
+    public TeamPerson getCurrentPerson()
+    {
+        return allPersons.get(curPerson);
     }
 
     public void createTeams(int numPersons)
@@ -28,16 +56,20 @@ public class Teams {
         createOneTeam(red, numPersons, 0);
         createOneTeam(blue, numPersons, 3);
         // создаём список всех персонажей, отсортированных по приоритету хода
+        ArrayList<PersonBase> all = new ArrayList<>();
         all.addAll(red);
         all.addAll(blue);
         all.sort((o1, o2) -> Integer.compare(o2.priority, o1.priority));
-    }
-
-    public ArrayList<PersonBase> getTeam(TeamType team)
-    {
-        if (team == TeamType.RED)
-            return red;
-        return blue;
+        // переносим их в команды
+        for (PersonBase p : all)
+        {
+            if (red.contains(p))
+            {
+                allPersons.add(new TeamPerson(TeamType.RED, p));
+            } else {
+                allPersons.add(new TeamPerson(TeamType.BLUE, p));
+            }
+        }
     }
 
     private void createOneTeam(ArrayList<PersonBase> team, int num, int start)
@@ -70,10 +102,11 @@ public class Teams {
                     team.add(new Robber(HeroesNames.getRandomName(), new CoordXY(9, num)));
                     break;
                 default:
-                    Console.println("ERROR! Пересмотри алгоритм, ламер!");
+                    System.out.println("ERROR! Пересмотри алгоритм, ламер!");
             }
 
         }
     }
 
 }
+

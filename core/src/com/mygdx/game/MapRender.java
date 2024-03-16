@@ -16,10 +16,6 @@ import java.util.HashMap;
 
 public class MapRender {
 
-    private enum Dir {
-        LEFT, RIGHT;
-    }
-    
     private static final int MAP_TILE_WIDTH = 64;
     private static final int MAP_TILE_HEIGHT = 64;
     
@@ -30,10 +26,12 @@ public class MapRender {
     private final TextureRegion[] map_tiles;
 
     private final HashMap<String, TextureRegion> txPersons;
-
-
+    private final TextureRegion fireFar;
+    private final TextureRegion fireNear;
+    
     Map map;
 
+    
     public MapRender(Map map) {
 
         this.map = map;
@@ -59,6 +57,17 @@ public class MapRender {
         txPersons.put("Spearman", new TextureRegion(tiles[1][4]));
         txPersons.put("Monk", new TextureRegion(tiles[1][5]));
         txPersons.put("Wizard", new TextureRegion(tiles[1][6]));
+
+        txPersons.put("SelPeasant", new TextureRegion(tiles[2][0]));
+        txPersons.put("SelCrossbowman", new TextureRegion(tiles[2][1]));
+        txPersons.put("SelSniper",  new TextureRegion(tiles[2][2]));
+        txPersons.put("SelRobber", new TextureRegion(tiles[2][3]));
+        txPersons.put("SelSpearman", new TextureRegion(tiles[2][4]));
+        txPersons.put("SelMonk", new TextureRegion(tiles[2][5]));
+        txPersons.put("SelWizard", new TextureRegion(tiles[2][6]));
+
+        fireFar = new TextureRegion(tiles[0][5]);
+        fireNear = new TextureRegion(tiles[0][6]);
     }
 
 
@@ -70,11 +79,32 @@ public class MapRender {
 
         renderMap();
         renderTeams();
-        
+        drawCurrentPerson();
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 8, 20);
         batch.end();
+
+
     }
 
+    public void drawCurrentPerson()
+    {
+        TeamPerson cur = map.teams.getCurrentPerson();
+        TextureRegion texture = txPersons.get("Sel" + cur.person.getClass().getSimpleName());
+        if (texture != null)
+        {
+            if (cur.team == TeamType.RED)
+            {
+                batch.draw(texture, cur.person.getPositionX()*MAP_TILE_WIDTH, cur.person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+            } else {
+                texture.flip(true,false);
+                batch.draw(texture, cur.person.getPositionX()*MAP_TILE_WIDTH, cur.person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                texture.flip(true,false);
+            }
+
+        }
+    }
+
+    
     private void renderMap()
     {
 
@@ -93,30 +123,27 @@ public class MapRender {
 
     private void renderTeams()
     {
-        renderOneTeam(map.teams.getTeam(TeamType.RED), Dir.LEFT);
-        renderOneTeam(map.teams.getTeam(TeamType.BLUE), Dir.RIGHT);
-    }
-
-    private void renderOneTeam(ArrayList<PersonBase> team, Dir dir)
-    {
-        for (PersonBase p : team)
+        ArrayList<TeamPerson> team = map.teams.allPersons;
+        for (TeamPerson p : team)
         {
-            TextureRegion texture = txPersons.get(p.getClass().getSimpleName());
+            PersonBase person = p.person;
+            TextureRegion texture = txPersons.get(person.getClass().getSimpleName());
             if (texture != null)
             {
-                if (dir == Dir.LEFT)
-                    batch.draw(texture, p.getPositionX()*MAP_TILE_WIDTH, p.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                if (p.team == TeamType.RED)
+                    batch.draw(texture, person.getPositionX()*MAP_TILE_WIDTH, person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
                 else {
                     texture.flip(true,false);
-                    batch.draw(texture, p.getPositionX()*MAP_TILE_WIDTH, p.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                    batch.draw(texture, person.getPositionX()*MAP_TILE_WIDTH, person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
                     texture.flip(true,false);
                 }
             } else {
-                Console.println(p.getClass().getSimpleName());
+                System.out.println(p.getClass().getSimpleName());
             }
 
         }
     }
+
 
     /**
      * Изменение размеров окна
@@ -148,6 +175,16 @@ public class MapRender {
         txPersons.get("Spearman").getTexture().dispose();
         txPersons.get("Monk").getTexture().dispose();
         txPersons.get("Wizard").getTexture().dispose();
+        txPersons.get("SelPeasant").getTexture().dispose();
+        txPersons.get("SelCrossbowman").getTexture().dispose();
+        txPersons.get("SelSniper").getTexture().dispose();
+        txPersons.get("SelRobber").getTexture().dispose();
+        txPersons.get("SelSpearman").getTexture().dispose();
+        txPersons.get("SelMonk").getTexture().dispose();
+        txPersons.get("SelWizard").getTexture().dispose();
+
+        fireFar.getTexture().dispose();
+        fireNear.getTexture().dispose();
     }
 
 }

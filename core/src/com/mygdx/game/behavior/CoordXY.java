@@ -1,11 +1,11 @@
 package com.mygdx.game.behavior;
 
-import com.mygdx.game.person.PersonBase;
 
 /**
  * Класс для позиционирования персонажей
  */
 public class CoordXY {
+
     private int curX;
     private int curY;
 
@@ -26,6 +26,7 @@ public class CoordXY {
     /*
         Геттеры и сеттеры
      */
+
     public void setX(int curX) {
         this.curX = curX;
     }

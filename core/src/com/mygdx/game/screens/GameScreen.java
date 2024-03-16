@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.mygdx.game.Console;
 import com.mygdx.game.GameLogger;
 import com.mygdx.game.Map;
 import com.mygdx.game.MapRender;
@@ -28,7 +27,7 @@ public class GameScreen extends BaseScreen{
         map = new Map(MAP_WIDTH, MAP_HEIGHT);
         render = new MapRender(map);
         nextStep = 0;
-        Console.println("Новая игра");
+        System.out.println("Новая игра");
     }
 
     @Override
@@ -46,7 +45,6 @@ public class GameScreen extends BaseScreen{
             if (nextStep < 0)
             {
                 nextStep = 10;
-                Console.println("next step");
             }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
