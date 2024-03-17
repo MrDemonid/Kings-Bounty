@@ -26,14 +26,11 @@ public class MapRender {
     private float gameTime;
 
     private final TextureRegion[] map_tiles;
-    private final HashMap<String, Animation> activePerson;
-//    private final Animation<TextureRegion> txPeasant;
-
-
+    private final HashMap<String, Animation<TextureRegion>> activePerson;
 
     private final HashMap<String, TextureRegion> txPersons;
-    private final TextureRegion fireFar;
-    private final TextureRegion fireNear;
+    private final TextureRegion shotImage;
+    private final TextureRegion kickImage;
     
     Map map;
 
@@ -74,10 +71,12 @@ public class MapRender {
         activePerson.put("Monk",        new Animation<>(0.2f, tiles[1][5], tiles[2][5]));
         activePerson.put("Wizard",      new Animation<>(0.2f, tiles[1][6], tiles[2][6]));
 
-        fireFar = new TextureRegion(tiles[0][5]);
-        fireNear = new TextureRegion(tiles[0][6]);
+        shotImage = new TextureRegion(tiles[0][5]);
+        kickImage = new TextureRegion(tiles[0][6]);
     }
 
+    public static int getMapTileWidth() { return MAP_TILE_WIDTH; }
+    public static int getMapTileHeight() { return MAP_TILE_HEIGHT; }
 
     public void render(float delta)
     {
@@ -88,10 +87,9 @@ public class MapRender {
 
         renderMap();
         renderTeams(gameTime);
+        renderShots();
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 8, 20);
         batch.end();
-
-
     }
 
 
@@ -147,6 +145,18 @@ public class MapRender {
         }
     }
 
+    private void renderShots()
+    {
+        if (Map.shot != null)
+        {
+            batch.draw(shotImage, Map.shot.getCurX(), Map.shot.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+        }
+        if (Map.kick != null)
+        {
+            batch.draw(kickImage, Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+        }
+
+    }
 
     /**
      * Изменение размеров окна
@@ -186,8 +196,8 @@ public class MapRender {
         txPersons.get("SelMonk").getTexture().dispose();
         txPersons.get("SelWizard").getTexture().dispose();
 
-        fireFar.getTexture().dispose();
-        fireNear.getTexture().dispose();
+        shotImage.getTexture().dispose();
+        kickImage.getTexture().dispose();
     }
 
 }

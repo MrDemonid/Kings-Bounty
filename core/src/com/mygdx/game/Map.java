@@ -1,5 +1,9 @@
 package com.mygdx.game;
 
+import com.mygdx.game.behavior.CoordXY;
+import com.mygdx.game.movedobj.ActionKick;
+import com.mygdx.game.movedobj.ActionShot;
+
 import java.util.Random;
 
 public class Map {
@@ -10,6 +14,9 @@ public class Map {
     private final int[][] tiles;
 
     public Teams teams;
+    public static ActionShot shot;
+    public static ActionKick kick;
+
 
     public Map(int mapWidth, int mapHeight)
     {
@@ -19,6 +26,9 @@ public class Map {
 
         this.teams = new Teams();
         teams.createTeams(10);
+
+        shot = null;
+        kick = null;
     }
 
     /**
@@ -36,6 +46,13 @@ public class Map {
             }
         }
     }
+
+
+    public static void makeShot(CoordXY from, CoordXY to)
+    {
+        shot = new ActionShot(from, to);
+    }
+    public static void makeKick(int x, int y) { kick = new ActionKick(x, y); }
 
     public int getWidth()
     {
@@ -73,7 +90,20 @@ public class Map {
      */
     public void update(float deltaTime)
     {
-        teams.update();
+        if (shot != null) {
+            if (!shot.update())
+            {
+                makeKick(shot.getCurX() / MapRender.getMapTileWidth(), shot.getCurY() / MapRender.getMapTileHeight());
+                shot = null;
+            }
+        } else if (kick != null)
+        {
+            if (!kick.update())
+            {
+                kick = null;
+            }
+        } else {
+            teams.update();
+        }
     }
-
 }

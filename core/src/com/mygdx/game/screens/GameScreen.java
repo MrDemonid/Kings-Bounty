@@ -16,7 +16,6 @@ public class GameScreen extends BaseScreen{
     Map map;
     MapRender render;
 
-    int nextStep;           // ограничивает частоту нажатий пробела
 
     public GameScreen(Game game) {
         super(game);
@@ -26,7 +25,6 @@ public class GameScreen extends BaseScreen{
     public void show() {
         map = new Map(MAP_WIDTH, MAP_HEIGHT);
         render = new MapRender(map);
-        nextStep = 0;
         System.out.println("Новая игра");
     }
 
@@ -34,19 +32,8 @@ public class GameScreen extends BaseScreen{
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1.0f);
         delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
-        if (nextStep == 0)
-        {
-            map.update(delta);
-        }
+        map.update(delta);
         render.render(delta);
-        nextStep--;
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Keys.ENTER))
-        {
-            if (nextStep < 0)
-            {
-                nextStep = 10;
-            }
-        }
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new MainMenuScreen(game));
         }

@@ -1,5 +1,6 @@
 package com.mygdx.game.person;
 
+import com.mygdx.game.Map;
 import com.mygdx.game.behavior.CoordXY;
 
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public abstract class ShooterBase extends PersonBase {
      */
     protected void shot(PersonBase target)
     {
+        Map.makeShot(position, target.position);
+
         System.out.print(" Стреляет по " + target);
         ammo--;
         float dist = position.distanceTo(target.position);
