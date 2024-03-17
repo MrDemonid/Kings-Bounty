@@ -11,9 +11,12 @@ public class ActionShot extends ActionBase
     private float vx, vy;       // направление веткора до цели
     protected int step;                 // текущий шаг
 
+    protected CoordXY to;
+
     public ActionShot(CoordXY pos, CoordXY to)
     {
         super(pos.getX(), pos.getY(), 0);
+        this.to = to;
 
         curX = (int) fromX;
         curY = (int) fromY;
@@ -42,6 +45,15 @@ public class ActionShot extends ActionBase
     @Override
     public int getCurY() {
         return curY;
+    }
+
+    public int getTargetX()
+    {
+        return to.getX();
+    }
+    public int getTargetY()
+    {
+        return to.getY();
     }
 
     @Override

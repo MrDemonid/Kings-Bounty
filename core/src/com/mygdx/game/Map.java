@@ -93,7 +93,7 @@ public class Map {
         if (shot != null) {
             if (!shot.update())
             {
-                makeKick(shot.getCurX() / MapRender.getMapTileWidth(), shot.getCurY() / MapRender.getMapTileHeight());
+                makeKick(shot.getTargetX(), shot.getTargetY());
                 shot = null;
             }
         } else if (kick != null)
