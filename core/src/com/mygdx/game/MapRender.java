@@ -158,6 +158,10 @@ public class MapRender {
         {
             batch.draw(kickImage, Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
+        if (Map.text != null)
+        {
+            font.draw(batch, Map.text.getText(), Map.text.getCurX(), Map.text.getCurY());
+        }
 
     }
 

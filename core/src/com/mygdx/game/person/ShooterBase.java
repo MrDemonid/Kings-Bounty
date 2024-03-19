@@ -44,7 +44,7 @@ public abstract class ShooterBase extends PersonBase {
      */
     protected void shot(PersonBase target)
     {
-        Map.makeShot(position, target.position);
+//        Map.makeShot(position, target.position);
 
         System.out.print(" Стреляет по " + target);
         ammo--;
@@ -61,6 +61,9 @@ public abstract class ShooterBase extends PersonBase {
             damage *= 2.0f;
         }
         int res = target.getDamage(damage);
+
+        Map.makeShot(position, target.position, res);
+
         if (res > 0)
         {
             if (critical)

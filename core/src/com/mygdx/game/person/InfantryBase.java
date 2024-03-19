@@ -92,7 +92,7 @@ public abstract class InfantryBase extends PersonBase {
 
     private void attack(PersonBase target, boolean isMoved)
     {
-        Map.makeShot(position, target.position);
+//        Map.makeShot(position, target.position);
 //        Map.makeKick(target.position.getX(), target.position.getY());
 
         System.out.print(name + ": бьёт " + target);
@@ -104,8 +104,10 @@ public abstract class InfantryBase extends PersonBase {
         }
         if (isMoved)
             damage /= 2;                        // удар с хода
-
         int res = target.getDamage(damage);
+
+        Map.makeShot(position, target.position, res);
+
         if (res > 0)
         {
             if (critical)

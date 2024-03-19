@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.mygdx.game.behavior.CoordXY;
 import com.mygdx.game.movedobj.ActionKick;
 import com.mygdx.game.movedobj.ActionShot;
+import com.mygdx.game.movedobj.ActionText;
 
 import java.util.Random;
 
@@ -16,6 +17,7 @@ public class Map {
     public Teams teams;
     public static ActionShot shot;
     public static ActionKick kick;
+    public static ActionText text;
 
 
     public Map(int mapWidth, int mapHeight)
@@ -29,6 +31,7 @@ public class Map {
 
         shot = null;
         kick = null;
+        text = null;
     }
 
     /**
@@ -48,11 +51,14 @@ public class Map {
     }
 
 
-    public static void makeShot(CoordXY from, CoordXY to)
+    public static void makeShot(CoordXY from, CoordXY to, int targetDamage)
     {
-        shot = new ActionShot(from, to);
+        shot = new ActionShot(from, to, targetDamage);
     }
-    public static void makeKick(int x, int y) { kick = new ActionKick(x, y); }
+    public static void makeKick(int x, int y, int targetDamage) { kick = new ActionKick(x, y, targetDamage); }
+    public static void makeText(int x, int y, String txt) { text = new ActionText(x, y, txt); }
+
+
 
     public int getWidth()
     {
@@ -93,14 +99,17 @@ public class Map {
         if (shot != null) {
             if (!shot.update())
             {
-                makeKick(shot.getTargetX(), shot.getTargetY());
+                makeKick(shot.getTargetX(), shot.getTargetY(), shot.getTargetDamage());
+                makeText(shot.getTargetX(), shot.getTargetY()+1, "" + shot.getTargetDamage());
                 shot = null;
             }
-        } else if (kick != null)
-        {
-            if (!kick.update())
-            {
+        } else if (kick != null) {
+            if (!kick.update()) {
                 kick = null;
+            }
+        } else if (text != null) {
+            if (!text.update()) {
+                text = null;
             }
         } else {
             teams.update();

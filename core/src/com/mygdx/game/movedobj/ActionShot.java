@@ -13,10 +13,13 @@ public class ActionShot extends ActionBase
 
     protected CoordXY to;
 
-    public ActionShot(CoordXY pos, CoordXY to)
+    private int targetDamage;
+
+    public ActionShot(CoordXY pos, CoordXY to, int targetDamage)
     {
         super(pos.getX(), pos.getY(), 0);
         this.to = to;
+        this.targetDamage = targetDamage;
 
         curX = (int) fromX;
         curY = (int) fromY;
@@ -35,6 +38,11 @@ public class ActionShot extends ActionBase
             vx *= len;
             vy *= len;
         }
+    }
+
+    public int getTargetDamage()
+    {
+        return this.targetDamage;
     }
 
     @Override
