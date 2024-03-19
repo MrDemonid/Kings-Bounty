@@ -33,7 +33,7 @@ public class Peasant extends PersonBase{
      * @param enemies Список его врагов
      */
     @Override
-    public void step(ArrayList<PersonBase> enemies) {
+    public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends) {
 
     }
 

@@ -1,7 +1,7 @@
 package com.mygdx.game.person;
 
-import com.mygdx.game.Map;
 import com.mygdx.game.behavior.CoordXY;
+import com.mygdx.game.Map;
 
 import java.util.ArrayList;
 
@@ -82,7 +82,7 @@ public abstract class ShooterBase extends PersonBase {
      * @param enemies Список его врагов
      */
     @Override
-    public void step(ArrayList<PersonBase> enemies)
+    public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends)
     {
         if (health <= 0 || ammo <= 0)
         {

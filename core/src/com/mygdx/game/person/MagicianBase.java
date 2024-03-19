@@ -34,7 +34,7 @@ public abstract class MagicianBase extends PersonBase {
     }
 
     @Override
-    public void step(ArrayList<PersonBase> enemies) {
+    public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends) {
 
     }
 

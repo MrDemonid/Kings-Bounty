@@ -8,7 +8,7 @@ public class ActionKick extends ActionBase
 
     public ActionKick(int x, int y)
     {
-        super(x, y, 10);     // пол секунды
+        super(x, y, 20);     // пол секунды
     }
 
     @Override

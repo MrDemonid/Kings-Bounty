@@ -13,5 +13,5 @@ public interface ActionInterface {
      * Один шаг действия персонажа
      * @param enemies Список его врагов
      */
-    void step(ArrayList<PersonBase> enemies);
+    void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends);
 }

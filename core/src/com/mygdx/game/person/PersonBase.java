@@ -50,6 +50,11 @@ public abstract class PersonBase implements ActionInterface {
         this.position = pos;
     }
 
+    public boolean isAlive()
+    {
+        return health > 0;
+    }
+
     /**
      * Возвращает значение со случайной погрешностью в +-percent%
      * @param origin Начальное значение
@@ -83,15 +88,6 @@ public abstract class PersonBase implements ActionInterface {
         return position;
     }
 
-    public int getPositionX()
-    {
-        return this.position.getX();
-    }
-    public int getPositionY()
-    {
-        return this.position.getY();
-    }
-    
     /**
      * Лечение персонажа
      * @param health Количество добавляемого здоровья
@@ -118,10 +114,6 @@ public abstract class PersonBase implements ActionInterface {
         int loss = damage - (this.defence * damage) / 100;
         loss = Math.min(loss, this.health);
         this.health -= loss;
-//        if (this.health <= 0)
-//        {
-//            System.out.println(name + ": вышел из чата!");
-//        }
         return loss;
     }
 

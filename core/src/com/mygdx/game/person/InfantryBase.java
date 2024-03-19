@@ -1,9 +1,9 @@
 package com.mygdx.game.person;
 
-import com.mygdx.game.behavior.ActionInterface;
 import com.mygdx.game.behavior.CoordXY;
-
+import com.mygdx.game.Map;
 import java.util.ArrayList;
+
 
 /**
  * Абстрактный класс Пехота, в данном случае база для Разбойников и Копейщиков,
@@ -31,23 +31,70 @@ public abstract class InfantryBase extends PersonBase {
         level = 1;
     }
 
-    private void move(PersonBase target)
+    private boolean isMoved(CoordXY pos, ArrayList<PersonBase> persons)
     {
-        float vx = target.position.getX() - position.getX();
-        float vy = target.position.getY() - position.getY();
-        float len = (float) Math.sqrt(vx*vx + vy*vy);
-        if (len != 0f)
+        for (PersonBase p : persons)
         {
-            len = 1.0f / len;
-            vx = (float) Math.rint(vx * len);
-            vy = (float) Math.rint(vy * len);
-
+            if (p.position.equal(pos))
+                return false;
         }
-        position.moveTo((int) (vx), (int) (vy));
+        return true;
     }
 
-    private void kick(PersonBase target, boolean isMoved)
+    private void move(PersonBase target, ArrayList<PersonBase> friends)
     {
+        int[] px = {1, 0, -1, 0};
+        int[] py = {0, 1, 0, -1};
+
+        CoordXY newPos = new CoordXY(position.getX(),position.getY());
+        int minIdx = -1;
+        float minDist = Float.MAX_VALUE;
+        for (int i = 0; i < 4; i++)
+        {
+            newPos.setXY(position.getX()+px[i], position.getY()+py[i]);
+            if (isMoved(newPos, friends))
+            {
+                float dist = position.fastDistance(target.position, px[i], py[i]);
+                if (dist < minDist)
+                {
+                    minIdx = i;
+                    minDist = dist;                }
+            }
+        }
+        if (minIdx == -1.0f)
+            return;
+
+        position.increment(px[minIdx], py[minIdx]);
+
+        /*
+        CoordXY delta = position.getDelta(target.position);
+        CoordXY newPoz = new CoordXY(position.getX(),position.getY());
+
+        int dx = delta.getX();
+        if (dx != 0)
+            dx = Math.abs(dx)/dx;
+        int dy = delta.getY();
+        if (dy != 0)
+            dy = Math.abs(dy)/dy;
+        if (dx != 0 && dy != 0)
+            dy = 0;
+        newPoz.increment(dx,dy);
+
+        for (PersonBase vin: friends){
+            if(vin.position.equal(newPoz))
+                return;
+        }
+        position = newPoz;
+        */
+
+        System.out.println(name + ": перемещается на (" + position.getX() + ", " + position.getY() + ")");
+    }
+
+    private void attack(PersonBase target, boolean isMoved)
+    {
+        Map.makeShot(position, target.position);
+//        Map.makeKick(target.position.getX(), target.position.getY());
+
         System.out.print(name + ": бьёт " + target);
         int damage = getRound(power, 10) + (power / 10) * level;
         boolean critical = (this.agility/3) >= rnd.nextInt(100);
@@ -55,6 +102,9 @@ public abstract class InfantryBase extends PersonBase {
         {
             damage *= 2.0f;
         }
+        if (isMoved)
+            damage /= 2;                        // удар с хода
+
         int res = target.getDamage(damage);
         if (res > 0)
         {
@@ -72,28 +122,24 @@ public abstract class InfantryBase extends PersonBase {
     }
 
     @Override
-    public void step(ArrayList<PersonBase> enemies) {
-        if (health <= 0)
-            return;
+    public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends)
+    {
         PersonBase target = this.findNearestPerson(enemies);
-        if (target!= null)
+        if (health <= 0 || target == null)
+            return;
+
+        if (position.distanceTo(target.position) < 1.5f)
         {
-            int dist = (int) position.distanceTo(target.position);
-            System.out.println("  - dist = " + dist);
-            if (dist <= 1)
+            // бьём
+            attack(target, false);
+        } else {
+            move(target, friends);
+            if (position.distanceTo(target.position) < 1.5f)
             {
-                // бьём
-                kick(target, false);
-            } else {
-                move(target);
-                if (position.distanceTo(target.position) <= 1.0f)
-                {
-                    // бьём с ходу, с меньшей силой
-                    kick(target, true);
-                }
+                // бьём с ходу, с меньшей силой
+                attack(target, true);
             }
         }
 
     }
-
 }

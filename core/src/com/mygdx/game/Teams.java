@@ -41,9 +41,9 @@ public class Teams {
         System.out.print(p.person + " ходит. ");
         if (p.team == TeamType.RED)
         {
-            p.person.step(blue);
+            p.person.step(blue, red);
         } else {
-            p.person.step(red);
+            p.person.step(red, blue);
         }
         System.out.println();
     }

@@ -121,26 +121,29 @@ public class MapRender {
         for (TeamPerson p : team)
         {
             PersonBase person = p.person;
-            String className = person.getClass().getSimpleName();
-            TextureRegion frame;
-            if (p.active)
+            if (person.isAlive())
             {
-                frame = (TextureRegion) activePerson.get(className).getKeyFrame(time, true);
-            } else {
-                frame = txPersons.get(className);
-            }
-
-            if (frame != null)
-            {
-                if (p.team == TeamType.RED)
-                    batch.draw(frame, person.getPositionX()*MAP_TILE_WIDTH, person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
-                else {
-                    frame.flip(true,false);
-                    batch.draw(frame, person.getPositionX()*MAP_TILE_WIDTH, person.getPositionY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
-                    frame.flip(true,false);
+                String className = person.getClass().getSimpleName();
+                TextureRegion frame;
+                if (p.active)
+                {
+                    frame = (TextureRegion) activePerson.get(className).getKeyFrame(time, true);
+                } else {
+                    frame = txPersons.get(className);
                 }
-            } else {
-                System.out.println("renderTeams(): unknown class: " + p.getClass().getSimpleName());
+
+                if (frame != null)
+                {
+                    if (p.team == TeamType.RED)
+                        batch.draw(frame, person.getPosition().getX()*MAP_TILE_WIDTH, person.getPosition().getY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                    else {
+                        frame.flip(true,false);
+                        batch.draw(frame, person.getPosition().getX()*MAP_TILE_WIDTH, person.getPosition().getY()*MAP_TILE_HEIGHT, MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+                        frame.flip(true,false);
+                    }
+                } else {
+                    System.out.println("renderTeams(): unknown class: " + p.getClass().getSimpleName());
+                }
             }
         }
     }
