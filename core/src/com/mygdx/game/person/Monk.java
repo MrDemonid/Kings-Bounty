@@ -24,7 +24,11 @@ public class Monk extends MagicianBase {
     @Override
     public String toString()
     {
-        return String.format("[Монах] %s", name  + " " + position.toString());
+        return String.format("[Монах] %s, ❤️=%d, \uD83D\uDD25=%d, %s", name, health, mana, position.toString());
     }
 
+    @Override
+    public String getInfo() {
+        return "Монах";
+    }
 }

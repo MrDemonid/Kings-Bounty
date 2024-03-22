@@ -11,7 +11,7 @@ public class Peasant extends PersonBase{
     private static final int AGILITY = 30;
     private static final int DEFENCE = 0;
     private static final int DISTANCE = 1;
-    private static final int FULL_BAG = 12;
+    private static final int FULL_BAG = 24;
 
     private final int bag;                      // сколько стрел имеем с собой
 
@@ -24,7 +24,7 @@ public class Peasant extends PersonBase{
      */
     public Peasant(String name, CoordXY pos) {
         super(name, 0, HEALTH, POWER, AGILITY, DEFENCE, DISTANCE, pos);
-        bag = 0;
+        bag = FULL_BAG;
     }
 
     /**
@@ -38,9 +38,14 @@ public class Peasant extends PersonBase{
     }
 
     @Override
-    public String toString() {
-        return String.format("[Крестьянин] %s", name  + " " + position.toString());
+    public String getInfo() {
+        return "Крестьянин";
     }
 
+    @Override
+    public String toString() {
+        return String.format("[Крестьянин] %s, ❤️=%d, \uD83C\uDFF9=%d, %s", name, health, bag, position.toString());
+    }
 }
+
 

@@ -14,4 +14,6 @@ public interface ActionInterface {
      * @param enemies Список его врагов
      */
     void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends);
+
+    String getInfo();
 }

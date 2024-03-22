@@ -2,7 +2,6 @@ package com.mygdx.game.person;
 
 import com.mygdx.game.behavior.CoordXY;
 import com.mygdx.game.Map;
-
 import java.util.ArrayList;
 
 /**
@@ -44,9 +43,7 @@ public abstract class ShooterBase extends PersonBase {
      */
     protected void shot(PersonBase target)
     {
-//        Map.makeShot(position, target.position);
-
-        System.out.print(" Стреляет по " + target);
+//        System.out.print(" Стреляет по " + target);
         ammo--;
         float dist = position.distanceTo(target.position);
         int damage = getRound(power, 10) + (power / 10) * level;
@@ -64,19 +61,19 @@ public abstract class ShooterBase extends PersonBase {
 
         Map.makeShot(position, target.position, res);
 
-        if (res > 0)
-        {
-            if (critical)
-                System.out.print(" и наносит критический удар в " + res + " повреждений!");
-            else
-                System.out.print(" и наносит " + res + " повреждений.");
-        } else {
-            System.out.print(", но " + target.name + " увернулся!");
-        }
-        if (target.health <= 0)
-        {
-            System.out.print("\n" + target + " вышел из чата!");
-        }
+//        if (res > 0)
+//        {
+//            if (critical)
+//                System.out.print(" и наносит критический удар в " + res + " повреждений!");
+//            else
+//                System.out.print(" и наносит " + res + " повреждений.");
+//        } else {
+//            System.out.print(", но " + target.name + " увернулся!");
+//        }
+//        if (target.health <= 0)
+//        {
+//            System.out.print("\n" + target + " вышел из чата!");
+//        }
     }
 
     /**
@@ -89,10 +86,10 @@ public abstract class ShooterBase extends PersonBase {
     {
         if (health <= 0 || ammo <= 0)
         {
-            if (ammo <= 0)
-            {
-                System.out.print(name + ": " + "подайте стрел!");
-            }
+//            if (ammo <= 0)
+//            {
+//                System.out.print(name + ": " + "подайте стрел!");
+//            }
             return;
         }
         PersonBase target = this.findNearestPerson(enemies);

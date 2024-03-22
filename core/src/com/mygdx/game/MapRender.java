@@ -121,7 +121,7 @@ public class MapRender {
         for (TeamPerson p : team)
         {
             PersonBase person = p.person;
-            if (person.isAlive())
+            if (person.getHealth() > 0)
             {
                 String className = person.getClass().getSimpleName();
                 TextureRegion frame;

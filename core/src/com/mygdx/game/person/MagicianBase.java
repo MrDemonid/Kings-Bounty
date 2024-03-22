@@ -26,6 +26,7 @@ public abstract class MagicianBase extends PersonBase {
      * @param mana     Маны в наличии
      * @param pos      Положение в прогстранстве
      */
+
     protected MagicianBase(String name, int priority, int health, int power, int agility, int defence, int distance, int mana, CoordXY pos)
     {
         super(name, priority, health, power, agility, defence, distance, pos);
