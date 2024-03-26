@@ -35,6 +35,8 @@ public class Peasant extends PersonBase{
     @Override
     public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends)
     {
+        history = "";
+
         if (health <= 0 || bag <= 0)
             return;
         ShooterBase p = (ShooterBase) getShooter(friends);
@@ -44,6 +46,7 @@ public class Peasant extends PersonBase{
             {
                 p.setAmmo(p.getAmmo()+1);
                 bag--;
+                history = String.format(" дал стрелу %s", p);
             }
         }
     }
@@ -74,13 +77,8 @@ public class Peasant extends PersonBase{
     }
 
     @Override
-    public String getInfo() {
-        return "Крестьянин";
-    }
-
-    @Override
     public String toString() {
-        return String.format("[Крестьянин] %s, ❤️=%d, \uD83C\uDFF9=%d, %s", name, health, bag, position.toString());
+        return String.format("[Крестьянин] (%s) %s { ❤️=%d, \uD83C\uDFF9=%d }", position.toString(), name, health, bag);
     }
 }
 

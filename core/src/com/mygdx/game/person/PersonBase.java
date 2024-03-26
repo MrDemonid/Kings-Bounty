@@ -113,11 +113,18 @@ public abstract class PersonBase implements ActionInterface {
     {
         boolean probability = (this.agility/2) >= rnd.nextInt(100);
         if (probability)
+        {
+//            System.out.print(" но " + name + " увернулся!");
             return 0;           // увернулись
+        }
 
         int loss = damage - (this.defence * damage) / 100;
         loss = Math.min(loss, this.health);
         this.health -= loss;
+//        if (this.health <= 0)
+//        {
+//            System.out.println(name + ": вышел из чата!");
+//        }
         return loss;
     }
 
@@ -145,5 +152,16 @@ public abstract class PersonBase implements ActionInterface {
         }
         return target;
     }
+
+    @Override
+    public String getInfo() {
+        return this.toString() + history;
+    }
+
+//    @Override
+//    public String toString()
+//    {
+//        return String.format("[%s] %s", this.getClass().getSimpleName(), this.name);
+//    }
 
 }

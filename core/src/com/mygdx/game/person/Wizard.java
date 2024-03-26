@@ -28,11 +28,7 @@ public class Wizard extends MagicianBase {
     @Override
     public String toString()
     {
-        return String.format("[Волшебник] %s, ❤️=%d, \uD83D\uDD25=%d, %s", name, health, mana, position.toString());
+        return String.format("[Волшебник] (%s) %s { ❤️=%d, \uD83D\uDD25=%d }", position.toString(), name, health, mana);
     }
 
-    @Override
-    public String getInfo() {
-        return "Волшебник";
-    }
 }

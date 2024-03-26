@@ -45,7 +45,8 @@ public class Teams {
         } else {
             p.person.step(red, blue);
         }
-        System.out.println();
+        System.out.println(p.person.getInfo());
+//        System.out.println();
     }
 
     public void createTeams(int numPersons)

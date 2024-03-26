@@ -29,9 +29,9 @@ public class MapRender {
     private final HashMap<String, Animation<TextureRegion>> activePerson;
 
     private final HashMap<String, TextureRegion> txPersons;
-    private final TextureRegion shotImage;
-    private final TextureRegion kickImage;
-    
+    private final Animation<TextureRegion> shotImage;
+    private final Animation<TextureRegion> kickImage;
+
     Map map;
 
     
@@ -71,8 +71,8 @@ public class MapRender {
         activePerson.put("Monk",        new Animation<>(0.2f, tiles[1][5], tiles[2][5]));
         activePerson.put("Wizard",      new Animation<>(0.2f, tiles[1][6], tiles[2][6]));
 
-        shotImage = new TextureRegion(tiles[0][5]);
-        kickImage = new TextureRegion(tiles[0][6]);
+        shotImage = new Animation<>(0.2f, tiles[0][5], tiles[0][5]);
+        kickImage = new Animation<>(0.2f, tiles[0][6], tiles[0][6]);
     }
 
     public static int getMapTileWidth() { return MAP_TILE_WIDTH; }
@@ -87,7 +87,7 @@ public class MapRender {
 
         renderMap();
         renderTeams(gameTime);
-        renderShots();
+        renderShots(gameTime);
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 8, 20);
         batch.end();
     }
@@ -148,15 +148,15 @@ public class MapRender {
         }
     }
 
-    private void renderShots()
+    private void renderShots(float time)
     {
         if (Map.shot != null)
         {
-            batch.draw(shotImage, Map.shot.getCurX(), Map.shot.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+            batch.draw(shotImage.getKeyFrame(time, true), Map.shot.getCurX(), Map.shot.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
         if (Map.kick != null)
         {
-            batch.draw(kickImage, Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+            batch.draw(kickImage.getKeyFrame(time, true), Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
         if (Map.text != null)
         {
@@ -203,8 +203,8 @@ public class MapRender {
         txPersons.get("SelMonk").getTexture().dispose();
         txPersons.get("SelWizard").getTexture().dispose();
 
-        shotImage.getTexture().dispose();
-        kickImage.getTexture().dispose();
+//        shotImage.getTexture().dispose();
+//        kickImage.getTexture().dispose();
     }
 
 }

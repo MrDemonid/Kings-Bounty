@@ -33,7 +33,8 @@ public abstract class MagicianBase extends PersonBase {
      * @param mana     Маны в наличии
      * @param pos      Положение в прогстранстве
      */
-    protected MagicianBase(String name, int priority, int health, int power, int agility, int defence, int distance, int mana, CoordXY pos) {
+    protected MagicianBase(String name, int priority, int health, int power, int agility, int defence, int distance, int mana, CoordXY pos)
+    {
         super(name, priority, health, power, agility, defence, distance, pos);
         this.mana = mana;
         this.maxMana = mana;
@@ -42,15 +43,20 @@ public abstract class MagicianBase extends PersonBase {
     }
 
     @Override
-    public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends) {
+    public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends)
+    {
+        history = "";
+
         if (health <= 0)
             return;
+
         mana += MANA_RECOVERY;
 
         if (isWaitResurrection(friends))
             return;
 
-        if (getNumOfDead(friends, mana >= resurrectMana) > 3) {
+        if (getNumOfDead(friends, mana >= resurrectMana) > 3)
+        {
             beginResurrection(friends);     // воскрешаем
         } else {
             doHeal(friends);                // лечим
@@ -72,6 +78,7 @@ public abstract class MagicianBase extends PersonBase {
             } else {
                 respawnTarget = p;
                 respawnTarget.health = -1;      // помечаем как ожидающего воскрешение
+                history = String.format(" восстанавливает ману для воскрешения %s", respawnTarget);
             }
         }
     }
@@ -92,6 +99,8 @@ public abstract class MagicianBase extends PersonBase {
         if (mana >= resurrectMana)
         {
             doResurrection(respawnTarget);      // воскрешаем
+        } else {
+            history = String.format(" восстанавливает ману для воскрешения %s", respawnTarget);
         }
         return true;
     }
@@ -102,8 +111,14 @@ public abstract class MagicianBase extends PersonBase {
      */
     private void doResurrection(PersonBase person)
     {
-        person.healed(respawnTarget.getMaxHealth());
-        mana -= resurrectMana;
+        if (respawnTarget.getHealth() < 0)
+        {
+            person.healed(respawnTarget.getMaxHealth());
+            mana -= resurrectMana;
+            history = String.format(" воскресил %s", respawnTarget);
+        } else {
+            history = String.format(" не нашел погибшего для воскрешения!");
+        }
         respawnTarget = null;
     }
 
@@ -125,7 +140,11 @@ public abstract class MagicianBase extends PersonBase {
         if (p != null && min < 100) {
             int n = Math.min(mana, COST_HEALED);
             mana -= n;
+            int hp = p.getHealth();
             p.healed(n * MANA_TO_HEAL);
+            history = String.format(" вылечил %s на %d пунктов здоровья", p, p.getHealth()-hp);
+        } else {
+            history = String.format(" пропускает ход.");
         }
     }
 
@@ -148,4 +167,24 @@ public abstract class MagicianBase extends PersonBase {
         return count;
     }
 
+    /**
+     * Получение повреждений. Если персонаж умирает, то освобождаем respawnTarget.
+     * @param damage Величина урона (конечная будет зависеть от @defence и ловкости)
+     * @return Величина реально нанесенного урона.
+     */
+    @Override
+    public int getDamage(int damage)
+    {
+        int hp = super.getDamage(damage);
+        if (health <= 0)
+        {
+            if (respawnTarget != null)
+            {
+                if (respawnTarget.getHealth() < 0)
+                    respawnTarget.health = 0;
+                respawnTarget = null;
+            }
+        }
+        return hp;
+    }
 }
