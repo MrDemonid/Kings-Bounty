@@ -38,7 +38,7 @@ public class Teams {
         }
         TeamPerson p = allPersons.get(curPerson);
         p.active = true;
-//        System.out.print(p.person + " ходит. ");
+//    System.out.print(p.person + " ходит. ");
         if (p.team == TeamType.RED)
         {
             p.person.step(blue, red);

@@ -1,7 +1,8 @@
 package com.mygdx.game.person;
 
-import com.mygdx.game.behavior.CoordXY;
 import com.mygdx.game.Map;
+import com.mygdx.game.behavior.CoordXY;
+
 import java.util.ArrayList;
 
 /**
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 public abstract class ShooterBase extends PersonBase {
 
     protected int ammo;                         // боеприпасов в наличии
+    protected int maxAmmo;
     protected int level;                        // уровень (зависит от опыта и даёт увеличение урона)
     protected int effectiveDistance;            // макс. дальность эффективной стрельбы
 
@@ -32,10 +34,24 @@ public abstract class ShooterBase extends PersonBase {
     {
         super(name, priority, health, power, agility, defence, distance, pos);
         this.ammo = ammo;
+        this.maxAmmo = ammo;
         this.effectiveDistance = effectiveDistance;
         this.level = 1;
     }
 
+
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public int getMaxAmmo() {
+        return maxAmmo;
+    }
+
+    protected void setAmmo(int ammo)
+    {
+        this.ammo = Math.min(ammo, maxAmmo);
+    }
     /**
      * Атака противника
      * 
@@ -43,7 +59,6 @@ public abstract class ShooterBase extends PersonBase {
      */
     protected void shot(PersonBase target)
     {
-//        System.out.print(" Стреляет по " + target);
         ammo--;
         float dist = position.distanceTo(target.position);
         int damage = getRound(power, 10) + (power / 10) * level;
@@ -58,22 +73,7 @@ public abstract class ShooterBase extends PersonBase {
             damage *= 2.0f;
         }
         int res = target.getDamage(damage);
-
         Map.makeShot(position, target.position, res);
-
-//        if (res > 0)
-//        {
-//            if (critical)
-//                System.out.print(" и наносит критический удар в " + res + " повреждений!");
-//            else
-//                System.out.print(" и наносит " + res + " повреждений.");
-//        } else {
-//            System.out.print(", но " + target.name + " увернулся!");
-//        }
-//        if (target.health <= 0)
-//        {
-//            System.out.print("\n" + target + " вышел из чата!");
-//        }
     }
 
     /**
@@ -85,13 +85,8 @@ public abstract class ShooterBase extends PersonBase {
     public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends)
     {
         if (health <= 0 || ammo <= 0)
-        {
-//            if (ammo <= 0)
-//            {
-//                System.out.print(name + ": " + "подайте стрел!");
-//            }
             return;
-        }
+
         PersonBase target = this.findNearestPerson(enemies);
         if (target != null)
         {

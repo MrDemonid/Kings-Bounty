@@ -127,7 +127,7 @@ public class MapRender {
                 TextureRegion frame;
                 if (p.active)
                 {
-                    frame = (TextureRegion) activePerson.get(className).getKeyFrame(time, true);
+                    frame = activePerson.get(className).getKeyFrame(time, true);
                 } else {
                     frame = txPersons.get(className);
                 }

@@ -1,7 +1,8 @@
 package com.mygdx.game.person;
 
-import com.mygdx.game.behavior.CoordXY;
 import com.mygdx.game.Map;
+import com.mygdx.game.behavior.CoordXY;
+
 import java.util.ArrayList;
 
 /**
@@ -89,7 +90,6 @@ public abstract class InfantryBase extends PersonBase {
 
         int res = target.getDamage(damage);
         Map.makeShot(position, target.position, res);
-
         history = history + "attack " + target.name + " set " + res + "damage";
     }
 
