@@ -32,6 +32,10 @@ public class MapRender {
     private final Animation<TextureRegion> shotImage;
     private final Animation<TextureRegion> kickImage;
 
+    private final Animation<TextureRegion> explodeAnim;
+    private final Animation<TextureRegion> shootAnim;
+    
+
     Map map;
 
     
@@ -73,6 +77,25 @@ public class MapRender {
 
         shotImage = new Animation<>(0.2f, tiles[0][5], tiles[0][5]);
         kickImage = new Animation<>(0.2f, tiles[0][6], tiles[0][6]);
+        // создаём анимацию под взрыв
+        texture = new Texture(Gdx.files.internal("explode.png"));
+        tiles = TextureRegion.split(texture, 64, 64);
+        TextureRegion[] expl = new TextureRegion[6*8];
+        for (int y = 0, index = 0; y < 6; y++)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                expl[index++] = tiles[y][x];
+            }
+        }
+        explodeAnim = new Animation<>(0.025f, expl);
+        // под файер-болл
+        texture = new Texture(Gdx.files.internal("shoot.png"));
+        tiles = TextureRegion.split(texture, 32, 32);
+        expl = new TextureRegion[9];
+        System.arraycopy(tiles[0], 0, expl, 0, 9);
+        shootAnim = new Animation<>(0.025f, expl);
+
     }
 
     public static int getMapTileWidth() { return MAP_TILE_WIDTH; }
@@ -152,11 +175,12 @@ public class MapRender {
     {
         if (Map.shot != null)
         {
-            batch.draw(shotImage.getKeyFrame(time, true), Map.shot.getCurX(), Map.shot.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+            batch.draw(shootAnim.getKeyFrame(time, true), Map.shot.getCurX()+16, Map.shot.getCurY()+16, MAP_TILE_WIDTH/2, MAP_TILE_HEIGHT/2);
+//            batch.draw(shotImage.getKeyFrame(time, true), Map.shot.getCurX(), Map.shot.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
         if (Map.kick != null)
         {
-            batch.draw(kickImage.getKeyFrame(time, true), Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+            batch.draw(explodeAnim.getKeyFrame(time, true), Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
         if (Map.text != null)
         {

@@ -61,6 +61,10 @@ public abstract class PersonBase implements ActionInterface {
         return maxHealth;
     }
 
+    public int getPriority() {
+        return priority;
+    }
+
     /**
      * Возвращает значение со случайной погрешностью в +-percent%
      * @param origin Начальное значение

@@ -3,7 +3,6 @@ package com.mygdx.game.person;
 import com.mygdx.game.behavior.CoordXY;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Базовый класс для Волшебников, в данном случае для Кодуна и Монаха,
@@ -42,6 +41,10 @@ public abstract class MagicianBase extends PersonBase {
         this.respawnTarget = null;
     }
 
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
     @Override
     public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends)
     {
@@ -49,8 +52,7 @@ public abstract class MagicianBase extends PersonBase {
 
         if (health <= 0)
             return;
-
-        mana += MANA_RECOVERY;
+        mana = Math.min(mana + MANA_RECOVERY, maxMana);
 
         if (isWaitResurrection(friends))
             return;
@@ -65,18 +67,33 @@ public abstract class MagicianBase extends PersonBase {
 
     private void beginResurrection(ArrayList<PersonBase> friends)
     {
-        PersonBase p = friends.stream()
-                                .filter(n -> n.health == 0)
-                                .sorted((n1, n2) -> n2.priority - n1.priority)
-                                .collect(Collectors.toList())
-                                .getFirst();
+//        PersonBase p = friends.stream().filter(n -> n.health == 0).sorted((n1, n2) -> n2.priority - n1.priority).collect(Collectors.toList()).getFirst();
+        /*
+            Ищем подходящую кандидатуру для воскрешения
+         */
+        PersonBase p = null;
+        int max = -1;
+        for (PersonBase person : friends)
+        {
+            if (person.getHealth() < 0 && mana >= resurrectMana)
+            {
+                p = person;                 // нашли ожидающего, он у нас в приоритете
+                break;
+            }
+            if (person.getHealth() == 0 && max < person.getPriority())
+            {
+                p = person;
+                max = person.getPriority();
+            }
+        }
+
         if (p != null)
         {
+            respawnTarget = p;
             if (mana >= resurrectMana)
             {
                 doResurrection(p);
             } else {
-                respawnTarget = p;
                 respawnTarget.health = -1;      // помечаем как ожидающего воскрешение
                 history = String.format(" восстанавливает ману для воскрешения %s", respawnTarget);
             }
@@ -111,7 +128,7 @@ public abstract class MagicianBase extends PersonBase {
      */
     private void doResurrection(PersonBase person)
     {
-        if (respawnTarget.getHealth() < 0)
+        if (respawnTarget.getHealth() <= 0)
         {
             person.healed(respawnTarget.getMaxHealth());
             mana -= resurrectMana;
@@ -127,20 +144,24 @@ public abstract class MagicianBase extends PersonBase {
      *
      * @param friends Список персов
      */
-    private void doHeal(ArrayList<PersonBase> friends) {
+    private void doHeal(ArrayList<PersonBase> friends)
+    {
         int min = Integer.MAX_VALUE;
         PersonBase p = null;
-        for (PersonBase friend : friends) {
+        for (PersonBase friend : friends)
+        {
             int hp = friend.getHealth() * 100 / friend.getMaxHealth();
             if (hp > 0 && hp < min) {
                 min = hp;
                 p = friend;
             }
         }
-        if (p != null && min < 100) {
-            int n = Math.min(mana, COST_HEALED);
-            mana -= n;
+        if (p != null && min < 100)
+        {
             int hp = p.getHealth();
+            int needMana = (p.getMaxHealth() - hp) / MANA_TO_HEAL;      // кол-во маны для полного лечения
+            int n = Math.min(mana, Math.min(needMana, COST_HEALED));
+            mana -= n;
             p.healed(n * MANA_TO_HEAL);
             history = String.format(" вылечил %s на %d пунктов здоровья", p, p.getHealth()-hp);
         } else {

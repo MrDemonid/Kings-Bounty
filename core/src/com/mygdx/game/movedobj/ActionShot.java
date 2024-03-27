@@ -65,11 +65,10 @@ public class ActionShot extends ActionBase
     }
 
     @Override
-    public boolean update()
+    public boolean update(float delta)
     {
-        if (step > numSteps)
+        if (!super.update(delta))
             return false;
-
         curX = (int) (fromX + (vx * step * SIZE_STEP));
         curY = (int) (fromY + (vy * step * SIZE_STEP));
         step++;

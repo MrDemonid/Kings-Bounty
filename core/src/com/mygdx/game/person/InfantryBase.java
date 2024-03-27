@@ -91,6 +91,7 @@ public abstract class InfantryBase extends PersonBase {
 
         int res = target.getDamage(damage);
         Map.makeShot(position, target.position, res);
+        
         history = String.format(" атаковал %s ", target);
         if (res == 0)
         {

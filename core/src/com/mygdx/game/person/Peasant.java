@@ -11,7 +11,7 @@ public class Peasant extends PersonBase{
     private static final int AGILITY = 30;
     private static final int DEFENCE = 0;
     private static final int DISTANCE = 1;
-    private static final int FULL_BAG = 24;
+    private static final int FULL_BAG = 240;
 
     private int bag;                        // сколько стрел имеем с собой
 

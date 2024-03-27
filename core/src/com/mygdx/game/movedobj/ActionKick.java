@@ -5,17 +5,10 @@ import com.mygdx.game.behavior.CoordXY;
 
 public class ActionKick extends ActionBase
 {
-    private int targetDamage;
 
-    public ActionKick(int x, int y, int targetDamage)
+    public ActionKick(int x, int y)
     {
         super(x, y, 20);     // пол секунды
-        this.targetDamage = targetDamage;
-    }
-
-    public int getTargetDamage()
-    {
-        return this.targetDamage;
     }
 
     @Override

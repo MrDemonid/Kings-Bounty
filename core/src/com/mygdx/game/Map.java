@@ -55,7 +55,7 @@ public class Map {
     {
         shot = new ActionShot(from, to, targetDamage);
     }
-    public static void makeKick(int x, int y, int targetDamage) { kick = new ActionKick(x, y, targetDamage); }
+    public static void makeKick(int x, int y) { kick = new ActionKick(x, y); }
     public static void makeText(int x, int y, String txt) { text = new ActionText(x, y, txt); }
 
 
@@ -97,18 +97,18 @@ public class Map {
     public void update(float deltaTime)
     {
         if (shot != null) {
-            if (!shot.update())
+            if (!shot.update(deltaTime))
             {
-                makeKick(shot.getTargetX(), shot.getTargetY(), shot.getTargetDamage());
+                makeKick(shot.getTargetX(), shot.getTargetY());
                 makeText(shot.getTargetX(), shot.getTargetY()+1, "" + shot.getTargetDamage());
                 shot = null;
             }
         } else if (kick != null) {
-            if (!kick.update()) {
+            if (!kick.update(deltaTime)) {
                 kick = null;
             }
         } else if (text != null) {
-            if (!text.update()) {
+            if (!text.update(deltaTime)) {
                 text = null;
             }
         } else {
