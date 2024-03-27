@@ -2,14 +2,16 @@ package com.mygdx.game.movedobj;
 
 import com.mygdx.game.MapRender;
 import com.mygdx.game.behavior.CoordXY;
+import com.mygdx.game.config.ConfigGame;
 
 public class ActionShot extends ActionBase
 {
     private static final int SIZE_STEP = 16;
 
+    private float deltaX;       // вектор на цель по X
+    private float deltaY;       // вектор на цель по Y
+
     protected int curX, curY;             // текущие
-    private float vx, vy;       // направление веткора до цели
-    protected int step;                 // текущий шаг
 
     protected CoordXY to;
 
@@ -17,27 +19,27 @@ public class ActionShot extends ActionBase
 
     public ActionShot(CoordXY pos, CoordXY to, int targetDamage)
     {
-        super(pos.getX(), pos.getY(), 0);
-        this.to = to;
+        super(pos.getX(), pos.getY(), 15f);
         this.targetDamage = targetDamage;
+        this.to = to;
 
-        curX = (int) fromX;
-        curY = (int) fromY;
-        float toX =  to.getX() * MapRender.getMapTileWidth();
-        float toY = to.getY() * MapRender.getMapTileHeight();
-        // получаем вектор на цель
-        vx = toX - fromX;
-        vy = toY - fromY;
-        // нормализуем его
-        float len = (float) Math.sqrt(vx*vx + vy*vy);
-        numSteps = (int) len / SIZE_STEP;
-        step = 0;
-        if (len != 0.0f)
-        {
-            len = 1.0f / len;
-            vx *= len;
-            vy *= len;
-        }
+        float w = CoordXY.getWidth() * MapRender.getMapTileWidth();
+        float h = CoordXY.getHeight() * MapRender.getMapTileHeight();
+        float maxLen = (float) Math.sqrt(w*w + h*h);
+        deltaX = (to.getX() * MapRender.getMapTileWidth()) - fromX;
+        deltaY = (to.getY() * MapRender.getMapTileHeight()) - fromY;
+        float len = (float) Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+        float time = (1.5f / maxLen) * len;
+        setLiveTime(time);
+
+        System.out.println("------------");
+        System.out.println("- max len = " + maxLen);
+        System.out.println("- len = " + len);
+        System.out.println("- deltaX = " + deltaX);
+        System.out.println("- deltaY = " + deltaY);
+
+        System.out.println("- len = " + len);
+        System.out.println("- time = " + time);
     }
 
     public int getTargetDamage()
@@ -69,9 +71,9 @@ public class ActionShot extends ActionBase
     {
         if (!super.update(delta))
             return false;
-        curX = (int) (fromX + (vx * step * SIZE_STEP));
-        curY = (int) (fromY + (vy * step * SIZE_STEP));
-        step++;
+
+        curX = fromX + (int) ((deltaX / getLiveTime()) * getTime());
+        curY = fromY + (int) ((deltaY / getLiveTime()) * getTime());
         return true;
     }
 

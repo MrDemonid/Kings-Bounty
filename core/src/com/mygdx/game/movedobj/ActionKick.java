@@ -2,13 +2,14 @@ package com.mygdx.game.movedobj;
 
 import com.mygdx.game.MapRender;
 import com.mygdx.game.behavior.CoordXY;
+import com.mygdx.game.config.ConfigGame;
 
 public class ActionKick extends ActionBase
 {
 
     public ActionKick(int x, int y)
     {
-        super(x, y, 20);     // пол секунды
+        super(x, y, ConfigGame.getExplodeLiveTime());
     }
 
     @Override

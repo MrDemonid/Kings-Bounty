@@ -38,14 +38,13 @@ public class Teams {
         }
         TeamPerson p = allPersons.get(curPerson);
         p.active = true;
-//    System.out.print(p.person + " ходит. ");
         if (p.team == TeamType.RED)
         {
             p.person.step(blue, red);
         } else {
             p.person.step(red, blue);
         }
-        System.out.println(p.person.getInfo());
+//        System.out.println(p.person.getInfo());
 //        System.out.println();
     }
 

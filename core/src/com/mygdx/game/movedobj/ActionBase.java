@@ -1,20 +1,35 @@
 package com.mygdx.game.movedobj;
 
 import com.mygdx.game.MapRender;
-import com.mygdx.game.behavior.CoordXY;
 
 public abstract class ActionBase
 {
-    protected float fromX, fromY;       // начальные координаты
-    protected int numSteps;             // количество шагов (distance * 4)
-    private float time;                 // время жизни объекта
+    protected int fromX, fromY;       // начальные координаты
+    private float time;               // текущее время объекта (с момента его создания)
+    private float liveTime;           // время жизни объекта
 
-    public ActionBase(int x, int y, int steps)
+    /**
+     * Создание анимационного объекта
+     * @param x        Координата по оси X
+     * @param y        Координата по оси Y
+     * @param liveTime Время жизни объекта в секундах (1 сек - это наш FPS (из ConfigGame)
+     */
+    public ActionBase(int x, int y, float liveTime)
     {
         this.fromX = x * MapRender.getMapTileWidth();
         this.fromY = y * MapRender.getMapTileHeight();
         this.time = 0f;
-        numSteps = steps;
+        this.liveTime = liveTime;
+    }
+
+    protected void setLiveTime(float time)
+    {
+        liveTime = time;
+    }
+
+    protected float getLiveTime()
+    {
+        return liveTime;
     }
 
     abstract public int getCurX();
@@ -27,9 +42,8 @@ public abstract class ActionBase
     public boolean update(float delta)
     {
         time += delta;
-        if (numSteps <= 0)
+        if (time >= liveTime)
             return false;
-        numSteps--;
         return true;
     }
 

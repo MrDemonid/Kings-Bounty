@@ -6,7 +6,7 @@ public class ActionText extends ActionBase {
 
     public ActionText(int x, int y, String text)
     {
-        super(x, y, 20);
+        super(x, y, 0.5f);
         this.text = text;
     }
 

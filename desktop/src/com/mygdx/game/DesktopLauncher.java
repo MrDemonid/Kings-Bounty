@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.mygdx.game.BountyGame;
+import com.mygdx.game.config.ConfigGame;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -14,7 +15,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setWindowedMode(640, 640);
 		config.useVsync(true);
-		config.setForegroundFPS(30);
+		config.setForegroundFPS(ConfigGame.getFps());
 		config.setTitle("Kings-Bounty");
 		System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
 		new Lwjgl3Application(new BountyGame(), config);

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.behavior.TeamType;
+import com.mygdx.game.config.ConfigGame;
 import com.mygdx.game.person.PersonBase;
 
 import java.util.ArrayList;
@@ -88,19 +89,19 @@ public class MapRender {
                 expl[index++] = tiles[y][x];
             }
         }
-        explodeAnim = new Animation<>(0.025f, expl);
+        explodeAnim = new Animation<>((float) 1/ ConfigGame.getFps(), expl);
         // под файер-болл
         texture = new Texture(Gdx.files.internal("shoot.png"));
         tiles = TextureRegion.split(texture, 32, 32);
         expl = new TextureRegion[9];
         System.arraycopy(tiles[0], 0, expl, 0, 9);
-        shootAnim = new Animation<>(0.025f, expl);
+        shootAnim = new Animation<>((float) 1/ ConfigGame.getFps(), expl);
 
     }
 
     public static int getMapTileWidth() { return MAP_TILE_WIDTH; }
     public static int getMapTileHeight() { return MAP_TILE_HEIGHT; }
-
+    
     public void render(float delta)
     {
         gameTime += delta;
@@ -175,12 +176,12 @@ public class MapRender {
     {
         if (Map.shot != null)
         {
-            batch.draw(shootAnim.getKeyFrame(time, true), Map.shot.getCurX()+16, Map.shot.getCurY()+16, MAP_TILE_WIDTH/2, MAP_TILE_HEIGHT/2);
+            batch.draw(shootAnim.getKeyFrame(Map.shot.getTime(), true), Map.shot.getCurX()+16, Map.shot.getCurY()+16, MAP_TILE_WIDTH/2, MAP_TILE_HEIGHT/2);
 //            batch.draw(shotImage.getKeyFrame(time, true), Map.shot.getCurX(), Map.shot.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
         if (Map.kick != null)
         {
-            batch.draw(explodeAnim.getKeyFrame(time, true), Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+            batch.draw(explodeAnim.getKeyFrame(Map.kick.getTime(), true), Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
         if (Map.text != null)
         {
