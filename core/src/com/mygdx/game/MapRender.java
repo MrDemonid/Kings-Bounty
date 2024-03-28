@@ -30,10 +30,9 @@ public class MapRender {
     private final HashMap<String, Animation<TextureRegion>> activePerson;
 
     private final HashMap<String, TextureRegion> txPersons;
-    private final Animation<TextureRegion> shotImage;
-    private final Animation<TextureRegion> kickImage;
 
     private final Animation<TextureRegion> explodeAnim;
+    private final Animation<TextureRegion> resurrectAnim;
     private final Animation<TextureRegion> shootAnim;
     
 
@@ -76,8 +75,6 @@ public class MapRender {
         activePerson.put("Monk",        new Animation<>(0.2f, tiles[1][5], tiles[2][5]));
         activePerson.put("Wizard",      new Animation<>(0.2f, tiles[1][6], tiles[2][6]));
 
-        shotImage = new Animation<>(0.2f, tiles[0][5], tiles[0][5]);
-        kickImage = new Animation<>(0.2f, tiles[0][6], tiles[0][6]);
         // создаём анимацию под взрыв
         texture = new Texture(Gdx.files.internal("explode.png"));
         tiles = TextureRegion.split(texture, 64, 64);
@@ -90,6 +87,20 @@ public class MapRender {
             }
         }
         explodeAnim = new Animation<>((float) 1/ ConfigGame.getFps(), expl);
+
+        // создаём анимацию под лечение
+        texture = new Texture(Gdx.files.internal("resurrect.png"));
+        tiles = TextureRegion.split(texture, 64, 64);
+        expl = new TextureRegion[6*8];
+        for (int y = 0, index = 0; y < 6; y++)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                expl[index++] = tiles[y][x];
+            }
+        }
+        resurrectAnim = new Animation<>((float) 1/ ConfigGame.getFps(), expl);
+
         // под файер-болл
         texture = new Texture(Gdx.files.internal("shoot.png"));
         tiles = TextureRegion.split(texture, 32, 32);
@@ -116,10 +127,8 @@ public class MapRender {
         batch.end();
     }
 
-
     private void renderMap()
     {
-
         for (int y = 0, yy = map.getHeight()-1; y < map.getHeight(); y++, yy--)
         {
             for (int x = 0; x < map.getWidth(); x++)
@@ -174,18 +183,22 @@ public class MapRender {
 
     private void renderShots(float time)
     {
-        if (Map.shot != null)
+        if (Map.actionShoot != null)
         {
-            batch.draw(shootAnim.getKeyFrame(Map.shot.getTime(), true), Map.shot.getCurX()+16, Map.shot.getCurY()+16, MAP_TILE_WIDTH/2, MAP_TILE_HEIGHT/2);
+            batch.draw(shootAnim.getKeyFrame(Map.actionShoot.getTime(), true), Map.actionShoot.getCurX()+16, Map.actionShoot.getCurY()+16, MAP_TILE_WIDTH/2, MAP_TILE_HEIGHT/2);
 //            batch.draw(shotImage.getKeyFrame(time, true), Map.shot.getCurX(), Map.shot.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
-        if (Map.kick != null)
+        if (Map.actionExplode != null)
         {
-            batch.draw(explodeAnim.getKeyFrame(Map.kick.getTime(), true), Map.kick.getCurX(), Map.kick.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+            batch.draw(explodeAnim.getKeyFrame(Map.actionExplode.getTime(), true), Map.actionExplode.getCurX(), Map.actionExplode.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
         }
-        if (Map.text != null)
+        if (Map.actionHealed != null)
         {
-            font.draw(batch, Map.text.getText(), Map.text.getCurX(), Map.text.getCurY());
+            batch.draw(resurrectAnim.getKeyFrame(Map.actionHealed.getTime(), true), Map.actionHealed.getCurX(), Map.actionHealed.getCurY(), MAP_TILE_WIDTH, MAP_TILE_HEIGHT);
+        }
+        if (Map.actionText != null)
+        {
+            font.draw(batch, Map.actionText.getText(), Map.actionText.getCurX(), Map.actionText.getCurY());
         }
 
     }

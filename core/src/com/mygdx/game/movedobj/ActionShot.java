@@ -31,15 +31,6 @@ public class ActionShot extends ActionBase
         float len = (float) Math.sqrt(deltaX*deltaX + deltaY*deltaY);
         float time = (1.5f / maxLen) * len;
         setLiveTime(time);
-
-        System.out.println("------------");
-        System.out.println("- max len = " + maxLen);
-        System.out.println("- len = " + len);
-        System.out.println("- deltaX = " + deltaX);
-        System.out.println("- deltaY = " + deltaY);
-
-        System.out.println("- len = " + len);
-        System.out.println("- time = " + time);
     }
 
     public int getTargetDamage()

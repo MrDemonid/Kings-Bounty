@@ -1,12 +1,14 @@
 package com.mygdx.game.movedobj;
 
+import com.mygdx.game.config.ConfigGame;
+
 public class ActionText extends ActionBase {
 
     private String text;
 
     public ActionText(int x, int y, String text)
     {
-        super(x, y, 0.5f);
+        super(x, y, ConfigGame.getExplodeLiveTime());
         this.text = text;
     }
 

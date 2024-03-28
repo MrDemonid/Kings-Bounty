@@ -15,9 +15,10 @@ public class Map {
     private final int[][] tiles;
 
     public Teams teams;
-    public static ActionShot shot;
-    public static ActionKick kick;
-    public static ActionText text;
+    public static ActionShot actionShoot;
+    public static ActionKick actionExplode;
+    public static ActionText actionText;
+    public static ActionKick actionHealed;
 
 
     public Map(int mapWidth, int mapHeight)
@@ -29,9 +30,10 @@ public class Map {
         this.teams = new Teams();
         teams.createTeams(10);
 
-        shot = null;
-        kick = null;
-        text = null;
+        actionShoot = null;
+        actionExplode = null;
+        actionText = null;
+        actionHealed = null;
     }
 
     /**
@@ -51,12 +53,23 @@ public class Map {
     }
 
 
-    public static void makeShot(CoordXY from, CoordXY to, int targetDamage)
+    public static void makeActionShoot(CoordXY from, CoordXY to, int targetDamage)
     {
-        shot = new ActionShot(from, to, targetDamage);
+        actionShoot = new ActionShot(from, to, targetDamage);
     }
-    public static void makeKick(int x, int y) { kick = new ActionKick(x, y); }
-    public static void makeText(int x, int y, String txt) { text = new ActionText(x, y, txt); }
+    public static void makeActionHealed(int x, int y, String txt)
+    {
+        actionHealed = new ActionKick(x, y);
+        makeActionText(x, y+1, txt);
+    }
+    public static void makeActionExplode(int x, int y)
+    {
+        actionExplode = new ActionKick(x, y);
+    }
+    public static void makeActionText(int x, int y, String txt)
+    {
+        actionText = new ActionText(x, y, txt);
+    }
 
 
 
@@ -92,25 +105,32 @@ public class Map {
 
     /**
      * Ход какого либо персонажа
-     * @param deltaTime
+     *
+     * @param deltaTime Прошедшее с предыдущего вызова время
      */
     public void update(float deltaTime)
     {
-        if (shot != null) {
-            if (!shot.update(deltaTime))
-            {
-                makeKick(shot.getTargetX(), shot.getTargetY());
-                makeText(shot.getTargetX(), shot.getTargetY()+1, "" + shot.getTargetDamage());
-                shot = null;
-            }
-        } else if (kick != null) {
-            if (!kick.update(deltaTime)) {
-                kick = null;
-            }
-        } else if (text != null) {
-            if (!text.update(deltaTime)) {
-                text = null;
-            }
+        if (actionExplode != null || actionShoot != null || actionText != null || actionHealed != null)
+        {
+            if (actionExplode != null)
+                if (!actionExplode.update(deltaTime))
+                    actionExplode = null;
+
+            if (actionText != null)
+                if (!actionText.update(deltaTime))
+                    actionText = null;
+
+            if (actionHealed != null)
+                if (!actionHealed.update(deltaTime))
+                    actionHealed = null;
+
+            if (actionShoot != null)
+                if (!actionShoot.update(deltaTime))
+                {
+                    makeActionExplode(actionShoot.getTargetX(), actionShoot.getTargetY());
+                    makeActionText(actionShoot.getTargetX(), actionShoot.getTargetY()+1, "" + actionShoot.getTargetDamage());
+                    actionShoot = null;
+                }
         } else {
             teams.update();
         }

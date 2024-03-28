@@ -1,5 +1,6 @@
 package com.mygdx.game.person;
 
+import com.mygdx.game.Map;
 import com.mygdx.game.behavior.CoordXY;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public abstract class MagicianBase extends PersonBase {
     @Override
     public void step(ArrayList<PersonBase> enemies, ArrayList<PersonBase> friends)
     {
-        history = "";
+        history = " пропускает ход.";
 
         if (health <= 0)
             return;
@@ -162,10 +163,12 @@ public abstract class MagicianBase extends PersonBase {
             int needMana = (p.getMaxHealth() - hp) / MANA_TO_HEAL;      // кол-во маны для полного лечения
             int n = Math.min(mana, Math.min(needMana, COST_HEALED));
             mana -= n;
-            p.healed(n * MANA_TO_HEAL);
-            history = String.format(" вылечил %s на %d пунктов здоровья", p, p.getHealth()-hp);
-        } else {
-            history = String.format(" пропускает ход.");
+            if (n > 0)
+            {
+                p.healed(n * MANA_TO_HEAL);
+                Map.makeActionHealed(p.getPosition().getX(), p.getPosition().getY(), "" + (p.getHealth()-hp));
+                history = String.format(" вылечил %s на %d пунктов здоровья", p, p.getHealth()-hp);
+            }
         }
     }
 
